@@ -5,6 +5,9 @@ var connect = require('gulp-connect');
 var open = require('gulp-open');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var concat = require('gulp-concat');
+var sass = require('gulp-sass');
+var scssLint = require('gulp-scss-lint');
 var lint = require('gulp-eslint');
 
 var config = {
@@ -14,7 +17,9 @@ var config = {
     clientDist: './dist/client',
     html: './src/client/index.html',
     js: ['./src/client/**/*.jsx', './src/server/**/*.js'],
-    mainJs: './src/client/main.jsx'
+    scss: './src/client/**/*.scss',
+    mainJs: './src/client/main.jsx',
+    scssLintConfig: './scss-lint.yml'
   }
 }
 
@@ -56,9 +61,26 @@ gulp.task('lint', function() {
     .pipe(lint.format());
 });
 
+gulp.task('scss-lint', function() {
+  return gulp.src(config.paths.scss)
+    .pipe(scssLint({
+      'config': config.paths.scssLintConfig,
+    }));
+});
+
+gulp.task('sass', function() {
+  gulp.src(config.paths.scss)
+    .pipe(concat('bundle.scss'))
+    .pipe(sass().on('error', sass.logError))
+    .pipe(sass({outputStyle: 'compressed'}))
+    .pipe(gulp.dest(config.paths.clientDist + '/css'))
+    .pipe(connect.reload());
+});
+
 gulp.task('watch', function() {
   gulp.watch(config.paths.html, ['html']);
   gulp.watch(config.paths.js, ['js', 'lint']);
+  gulp.watch(config.paths.scss, ['sass', 'scss-lint']);
 });
 
-gulp.task('default', ['html', 'lint', 'js', 'open', 'watch']);
+gulp.task('default', ['html', 'lint', 'js', 'scss-lint', 'sass', 'open', 'watch']);

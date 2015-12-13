@@ -1,0 +1,12 @@
+$chart-background: #aaa;
+
+#chart {
+
+  background-color: $chart-background;
+
+  height: 30vh;
+  width: 80%;
+
+  margin-left: 50%;
+  transform: translateX(-50%);
+}

@@ -2,12 +2,15 @@
 
 import React from 'react';
 
+import Chart from './chart/chart.jsx';
+import Header from './header/header.jsx';
+
 var App = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Hello World!</h1>
-        <p>Fuck yeah React is fun!</p>
+        <Header />
+        <Chart />
       </div>
     );
   }
