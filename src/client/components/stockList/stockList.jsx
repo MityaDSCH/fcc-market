@@ -7,14 +7,15 @@ var StockList = React.createClass({
 
     var createStockItem = function(stock) {
       return (
-        <li className="list-group-item">
+        <li key={stock.name} className="list-group-item">
           {stock.name}
+          <span className="glyphicon glyphicon-remove pull-right"></span>
         </li>
       );
     };
 
     return (
-      <div className="container">
+      <div>
         <ul className="list-group">
           {this.props.stocks.map(createStockItem)}
         </ul>

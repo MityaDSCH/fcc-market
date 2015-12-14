@@ -5,6 +5,7 @@ import React from 'react';
 import Chart from './chart/chart.jsx';
 import Header from './header/header.jsx';
 import StockList from './stockList/stockList.jsx';
+import StockInput from './stockInput/stockInput.jsx';
 
 var App = React.createClass({
 
@@ -21,9 +22,11 @@ var App = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className="container">
         <Header />
         <Chart />
+        <br />
+        <StockInput />
         <br />
         <StockList stocks={this.state.stocks} />
       </div>
