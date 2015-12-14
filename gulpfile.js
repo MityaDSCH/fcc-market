@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var connect = require('gulp-connect');
 var open = require('gulp-open');
+var watchify = require('watchify');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var concat = require('gulp-concat');
@@ -47,8 +48,9 @@ gulp.task('html', function() {
 });
 
 gulp.task('js', function() {
-  browserify(config.paths.mainJs)
+  watchify(browserify(config.paths.mainJs))
     .transform('babelify', {presets: ['es2015', 'react']})
+    .on('error', console.log)
     .bundle()
     .pipe(source('bundle.js'))
     .pipe(gulp.dest(config.paths.clientDist + '/scripts'))
