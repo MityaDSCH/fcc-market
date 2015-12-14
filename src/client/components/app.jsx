@@ -22,13 +22,14 @@ var App = React.createClass({
 
   render: function() {
     return (
-      <div className="container">
+      <div id="page-container">
         <Header />
         <Chart />
-        <br />
-        <StockInput />
-        <br />
-        <StockList stocks={this.state.stocks} />
+        <div>
+          <StockInput />
+          <br />
+          <StockList stocks={this.state.stocks} />
+        </div>
       </div>
     );
   }

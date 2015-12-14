@@ -1,0 +1,21 @@
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+#page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 100vh;
+  margin-left: 0;
+  width: 100vw;
+  @media screen and (min-width: 400px) {
+    margin-left: 5%;
+    width: 90%;
+  }
+  @media screen and (min-width: 400px) {
+    margin-left: 10%;
+    width: 80%;
+  }
+}
