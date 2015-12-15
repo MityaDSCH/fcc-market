@@ -5,8 +5,6 @@ var mongoose = require('mongoose');
 
 var app = express();
 
-mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/fcc-bars');
-
 // if in development cd to dist folder (current cwd == / b/c run from gulp)
 if (process.env.NODE_ENV === 'development') {
   process.chdir('./dist');
