@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = require('gulp');
-var connect = require('gulp-connect');
 var open = require('gulp-open');
 var watchify = require('watchify');
 var browserify = require('browserify');
@@ -10,6 +9,7 @@ var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var scssLint = require('gulp-scss-lint');
 var lint = require('gulp-eslint');
+var nodemon = require('gulp-nodemon');
 
 var config = {
   port: 8080,
@@ -17,24 +17,16 @@ var config = {
   paths: {
     clientDist: './dist/client',
     html: './src/client/index.html',
-    js: ['./src/client/**/*.jsx', './src/server/**/*.js'],
+    js: './src/client/**/*.jsx',
     scss: './src/client/**/*.scss',
     mainJs: './src/client/main.jsx',
-    scssLintConfig: './scss-lint.yml'
+    scssLintConfig: './scss-lint.yml',
+    server: './src/server/**/*',
+    serverDist: './dist/server'
   }
 }
 
-//Start dev server
-gulp.task('connect', function() {
-  connect.server({
-    root: ['dist/client'],
-    port: config.port,
-    base: config.baseUrl,
-    livereload: true
-  });
-});
-
-gulp.task('open', ['connect'], function() {
+gulp.task('open', ['start'], function() {
   gulp.src('./dist/client/index.html')
     .pipe(open({
       uri: config.baseUrl + ':' + config.port + '/'
@@ -43,18 +35,16 @@ gulp.task('open', ['connect'], function() {
 
 gulp.task('html', function() {
   gulp.src(config.paths.html)
-      .pipe(gulp.dest(config.paths.clientDist))
-      .pipe(connect.reload());
+      .pipe(gulp.dest(config.paths.clientDist));
 });
 
-gulp.task('js', function() {
+gulp.task('client-js', function() {
   watchify(browserify(config.paths.mainJs))
     .transform('babelify', {presets: ['es2015', 'react']})
     .on('error', console.log)
     .bundle()
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest(config.paths.clientDist + '/scripts'))
-    .pipe(connect.reload());
+    .pipe(gulp.dest(config.paths.clientDist + '/scripts'));
 });
 
 gulp.task('lint', function() {
@@ -75,8 +65,12 @@ gulp.task('sass', function() {
     .pipe(concat('bundle.scss'))
     .pipe(sass().on('error', sass.logError))
     .pipe(sass({outputStyle: 'compressed'}))
-    .pipe(gulp.dest(config.paths.clientDist + '/css'))
-    .pipe(connect.reload());
+    .pipe(gulp.dest(config.paths.clientDist + '/css'));
+});
+
+gulp.task('copy-server', function() {
+  gulp.src(config.paths.server)
+    .pipe(gulp.dest(config.paths.serverDist));
 });
 
 gulp.task('watch', function() {
@@ -85,4 +79,12 @@ gulp.task('watch', function() {
   gulp.watch(config.paths.scss, ['sass', 'scss-lint']);
 });
 
-gulp.task('default', ['html', 'lint', 'js', 'scss-lint', 'sass', 'open', 'watch']);
+gulp.task('start', function () {
+  nodemon({
+    script: config.paths.serverDist + '/main.js',
+    ext: 'html',
+    env: { 'NODE_ENV': 'development' }
+  });
+});
+
+gulp.task('default', ['html', 'lint', 'client-js', 'scss-lint', 'sass', 'copy-server', 'watch', 'start', 'open']);
