@@ -16,6 +16,14 @@
     "url": "https://github.com/MityaDSCH/fcc-market/issues"
   },
   "homepage": "https://github.com/MityaDSCH/fcc-market#readme",
+  "engines": {
+    "node": "~4.2.2",
+    "npm": "~3.5.2"
+  },
+  "scripts": {
+    "start": "node server/main.js",
+    "test": "mocha"
+  },
   "devDependencies": {
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
