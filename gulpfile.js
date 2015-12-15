@@ -22,7 +22,9 @@ var config = {
     mainJs: './src/client/main.jsx',
     scssLintConfig: './scss-lint.yml',
     server: './src/server/**/*',
-    serverDist: './dist/server'
+    serverDist: './dist/server',
+    package: './package.json',
+    dist: './dist'
   }
 }
 
@@ -71,6 +73,8 @@ gulp.task('sass', function() {
 gulp.task('copy-server', function() {
   gulp.src(config.paths.server)
     .pipe(gulp.dest(config.paths.serverDist));
+  gulp.src(config.paths.package)
+    .pipe(gulp.dest(config.paths.dist))
 });
 
 gulp.task('watch', function() {
