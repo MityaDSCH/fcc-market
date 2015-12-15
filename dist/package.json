@@ -1,0 +1,48 @@
+{
+  "name": "fcc-market",
+  "version": "1.0.0",
+  "description": "Free Code Camp's 3rd basejump",
+  "main": "src/main.jsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MityaDSCH/fcc-market.git"
+  },
+  "author": "Myles Gearon",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/MityaDSCH/fcc-market/issues"
+  },
+  "homepage": "https://github.com/MityaDSCH/fcc-market#readme",
+  "engines": {
+    "node": "~4.2.2",
+    "npm": "~3.5.2"
+  },
+  "scripts": {
+    "start": "node server/main.js",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browserify": "^12.0.1",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-eslint": "^1.1.1",
+    "gulp-nodemon": "^2.0.4",
+    "gulp-open": "^1.0.0",
+    "gulp-sass": "^2.1.1",
+    "gulp-scss-lint": "^0.3.8",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.6.1"
+  },
+  "dependencies": {
+    "history": "^1.16.0",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-router": "^1.0.2"
+  }
+}
