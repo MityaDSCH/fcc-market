@@ -10,6 +10,7 @@ var sass = require('gulp-sass');
 var scssLint = require('gulp-scss-lint');
 var lint = require('gulp-eslint');
 var nodemon = require('gulp-nodemon');
+var shell = require('gulp-shell');
 
 var config = {
   port: 8080,
@@ -101,3 +102,7 @@ gulp.task('open', ['start'], function() {
 gulp.task('serve', ['open']);
 
 gulp.task('build', ['html', 'lint', 'client-js', 'scss-lint', 'sass', 'copy-server', 'copy-images']);
+
+gulp.task('deploy', ['build'], shell.task([
+  'git subtree push --prefix dist heroku master'
+]));

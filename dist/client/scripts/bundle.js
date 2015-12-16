@@ -19126,7 +19126,7 @@ var Header = _react2.default.createClass({
         _react2.default.createElement(
           'h1',
           null,
-          'Stocks! Work?'
+          'Stocks!'
         ),
         _react2.default.createElement(
           'p',
