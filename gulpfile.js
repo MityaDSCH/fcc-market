@@ -16,24 +16,19 @@ var config = {
   baseUrl: 'http://localhost',
   paths: {
     clientDist: './dist/client',
+    serverDist: './dist/server',
     html: './src/client/index.html',
     js: './src/client/**/*.jsx',
     scss: './src/client/**/*.scss',
+    imagesSrc: './src/client/images/**/*',
+    imagesDist: './dist/client/images',
     mainJs: './src/client/main.jsx',
     scssLintConfig: './scss-lint.yml',
     server: './src/server/**/*',
-    serverDist: './dist/server',
     package: './package.json',
     dist: './dist'
   }
 }
-
-gulp.task('open', ['start'], function() {
-  gulp.src('./dist/client/index.html')
-    .pipe(open({
-      uri: config.baseUrl + ':' + config.port + '/'
-    }));
-});
 
 gulp.task('html', function() {
   gulp.src(config.paths.html)
@@ -77,13 +72,18 @@ gulp.task('copy-server', function() {
     .pipe(gulp.dest(config.paths.dist))
 });
 
+gulp.task('copy-images', function() {
+  gulp.src(config.paths.imagesSrc)
+    .pipe(gulp.dest(config.paths.imagesDist));
+});
+
 gulp.task('watch', function() {
   gulp.watch(config.paths.html, ['html']);
-  gulp.watch(config.paths.js, ['js', 'lint']);
+  gulp.watch(config.paths.js, ['client-js', 'lint']);
   gulp.watch(config.paths.scss, ['sass', 'scss-lint']);
 });
 
-gulp.task('start', function () {
+gulp.task('start', ['build', 'watch'], function () {
   nodemon({
     script: config.paths.serverDist + '/main.js',
     ext: 'html',
@@ -91,4 +91,13 @@ gulp.task('start', function () {
   });
 });
 
-gulp.task('default', ['html', 'lint', 'client-js', 'scss-lint', 'sass', 'copy-server', 'watch', 'start', 'open']);
+gulp.task('open', ['start'], function() {
+  gulp.src('./dist/client/index.html')
+    .pipe(open({
+      uri: config.baseUrl + ':' + config.port + '/'
+    }));
+});
+
+gulp.task('serve', ['open']);
+
+gulp.task('build', ['html', 'lint', 'client-js', 'scss-lint', 'sass', 'copy-server', 'copy-images']);

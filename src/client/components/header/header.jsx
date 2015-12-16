@@ -7,7 +7,7 @@ var Header = React.createClass({
     return (
       <div className='page-header'>
         <div className='header'>
-          <h1>Stocks!</h1>
+          <h1>Stocks! Work?</h1>
           <p>Add and remove stocks below by their symbol names, they're live-updated across browsers!
           </p>
         </div>
