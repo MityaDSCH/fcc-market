@@ -7,17 +7,24 @@ import Header from './header/header.jsx';
 import StockList from './stockList/stockList.jsx';
 import StockInput from './stockInput/stockInput.jsx';
 
+import StockStore from '../flux/stores/stockStore.js';
+
 var App = React.createClass({
 
   getInitialState: function() {
     return {
-      'stocks': [
-        {'name': 'ex1'},
-        {'name': 'ex2'},
-        {'name': 'ex3'},
-        {'name': 'ex4'}
-      ]
+      stocks: StockStore.getAllStocks()
     };
+  },
+
+  componentWillMount: function() {
+    StockStore.addChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    this.setState({
+      stocks: StockStore.getAllStocks()
+    })
   },
 
   render: function() {
@@ -33,6 +40,7 @@ var App = React.createClass({
       </div>
     );
   }
+
 });
 
 export default App;

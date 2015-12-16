@@ -2,7 +2,7 @@
 
 var gulp = require('gulp');
 var open = require('gulp-open');
-var watchify = require('watchify');
+// var watchify = require('watchify');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var concat = require('gulp-concat');
@@ -19,7 +19,7 @@ var config = {
     clientDist: './dist/client',
     serverDist: './dist/server',
     html: './src/client/index.html',
-    js: './src/client/**/*.jsx',
+    js: './src/client/**/*.{jsx,js}',
     scss: './src/client/**/*.scss',
     imagesSrc: './src/client/images/**/*',
     imagesDist: './dist/client/images',
@@ -37,7 +37,7 @@ gulp.task('html', function() {
 });
 
 gulp.task('client-js', function() {
-  watchify(browserify(config.paths.mainJs))
+  /*watchify(*/browserify(config.paths.mainJs)/*)*/
     .transform('babelify', {presets: ['es2015', 'react']})
     .on('error', console.log)
     .bundle()
@@ -88,7 +88,8 @@ gulp.task('start', ['build', 'watch'], function () {
   nodemon({
     script: config.paths.serverDist + '/main.js',
     ext: 'html',
-    env: { 'NODE_ENV': 'development' }
+    env: { 'NODE_ENV': 'development' },
+    tasks: ['build']
   });
 });
 

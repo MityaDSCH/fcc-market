@@ -9,7 +9,11 @@ var StockList = React.createClass({
       return (
         <li key={stock.name} className="list-group-item">
           {stock.name}
-          <span className="glyphicon glyphicon-remove pull-right"></span>
+          <span className="pull-right">
+            <button className="btn btn-xs btn-danger">
+              <span className="glyphicon glyphicon-remove"></span>
+            </button>
+          </span>
         </li>
       );
     };
