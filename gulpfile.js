@@ -88,9 +88,8 @@ gulp.task('watch', function() {
 gulp.task('start', ['build', 'watch'], function () {
   nodemon({
     script: config.paths.serverDist + '/main.js',
-    ext: 'html',
-    env: { 'NODE_ENV': 'development' },
-    tasks: ['build']
+    ext: '',
+    env: { 'NODE_ENV': 'development' }
   });
 });
 
@@ -100,8 +99,6 @@ gulp.task('open', ['start'], function() {
       uri: config.baseUrl + ':' + config.port + '/'
     }));
 });
-
-gulp.task('serve', ['open']);
 
 gulp.task('build', ['html', 'lint', 'client-js', 'scss-lint', 'sass', 'copy-server', 'copy-images']);
 

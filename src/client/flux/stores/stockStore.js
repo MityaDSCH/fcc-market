@@ -9,6 +9,7 @@ var CHANGE_EVENT = 'change';
 var _stocks = [];
 
 var StockStore = assign({}, EventEmitter.prototype, {
+
   addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
   },
@@ -32,7 +33,7 @@ Dispatcher.register(function(action) {
   switch(action.actionType) {
 
     case ActionTypes.INIT:
-      _stocks = action.initData.stocks;
+      _stocks = action.initData;
       StockStore.emitChange();
       break;
 

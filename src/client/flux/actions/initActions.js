@@ -3,13 +3,14 @@
 import Dispatcher from '../dispatcher/appDispatcher.js';
 import ActionTypes from '../constants/actionTypes';
 
-import tempInitApi from '../tempApi.js';
-
 var InitAction = {
   initApp: function() {
-    Dispatcher.dispatch({
-      actionType: ActionTypes.INIT,
-      initData: tempInitApi
+    var apiUrl = window.location.origin + '/api';
+    $.get(apiUrl, function(stocks) {
+      Dispatcher.dispatch({
+        actionType: ActionTypes.INIT,
+        initData: stocks
+      });
     });
   }
 };

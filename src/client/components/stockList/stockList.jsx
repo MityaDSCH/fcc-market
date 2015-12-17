@@ -4,10 +4,6 @@ import React from 'react';
 
 var StockList = React.createClass({
 
-  propTypes: {
-    stocks: React.PropTypes.array.isRequired
-  },
-
   removeStock: function(name) {
     console.log(name);
   },

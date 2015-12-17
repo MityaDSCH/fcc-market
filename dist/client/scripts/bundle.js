@@ -19910,10 +19910,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var StockList = _react2.default.createClass({
   displayName: 'StockList',
 
-  propTypes: {
-    stocks: _react2.default.PropTypes.array.isRequired
-  },
-
   removeStock: function removeStock(name) {
     console.log(name);
   },
@@ -19966,24 +19962,23 @@ var _actionTypes = require('../constants/actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
 
-var _tempApi = require('../tempApi.js');
-
-var _tempApi2 = _interopRequireDefault(_tempApi);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var InitAction = {
   initApp: function initApp() {
-    _appDispatcher2.default.dispatch({
-      actionType: _actionTypes2.default.INIT,
-      initData: _tempApi2.default
+    var apiUrl = window.location.origin + '/api';
+    $.get(apiUrl, function (stocks) {
+      _appDispatcher2.default.dispatch({
+        actionType: _actionTypes2.default.INIT,
+        initData: stocks
+      });
     });
   }
 };
 
 exports.default = InitAction;
 
-},{"../constants/actionTypes":171,"../dispatcher/appDispatcher.js":172,"../tempApi.js":174}],171:[function(require,module,exports){
+},{"../constants/actionTypes":171,"../dispatcher/appDispatcher.js":172}],171:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -20039,6 +20034,7 @@ var CHANGE_EVENT = 'change';
 var _stocks = [];
 
 var StockStore = (0, _objectAssign2.default)({}, _events.EventEmitter.prototype, {
+
   addChangeListener: function addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   },
@@ -20062,7 +20058,7 @@ _appDispatcher2.default.register(function (action) {
   switch (action.actionType) {
 
     case _actionTypes2.default.INIT:
-      _stocks = action.initData.stocks;
+      _stocks = action.initData;
       StockStore.emitChange();
       break;
 
@@ -20074,16 +20070,6 @@ _appDispatcher2.default.register(function (action) {
 exports.default = StockStore;
 
 },{"../constants/actionTypes.js":171,"../dispatcher/appDispatcher.js":172,"events":1,"object-assign":33}],174:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-  'stocks': [{ 'name': 'ex1' }, { 'name': 'ex2' }, { 'name': 'ex3' }, { 'name': 'ex4' }]
-};
-
-},{}],175:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -20106,4 +20092,4 @@ _initActions2.default.initApp();
 
 (0, _reactDom.render)(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
 
-},{"./components/app.jsx":165,"./flux/actions/initActions.js":170,"react":164,"react-dom":35}]},{},[175]);
+},{"./components/app.jsx":165,"./flux/actions/initActions.js":170,"react":164,"react-dom":35}]},{},[174]);

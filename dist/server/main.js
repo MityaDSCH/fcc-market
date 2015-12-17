@@ -4,17 +4,21 @@ var express = require('express');
 var mongoose = require('mongoose');
 
 var app = express();
+var routes = require('./routes.js');
 
-// if in development cd to dist folder (current cwd == / b/c run from gulp)
+var mongoURI = process.env.MONGOLAB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/fcc-market';
+mongoose.connect(mongoURI);
+
 if (process.env.NODE_ENV === 'development') {
+  require('./models/devSeed.js');
+  // if in development cd to dist folder (current cwd == / b/c run from gulp)
   process.chdir('./dist');
 }
 
-app.use('/', express.static(process.cwd() + '/client'));
+app.use('/', express.static('./client'));
+app.use('/api', express.static('./server/'))
 
-app.get('/', function(req, res) {
-  res.sendFile(process.cwd() + '/client/index.html');
-});
+routes(app);
 
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
