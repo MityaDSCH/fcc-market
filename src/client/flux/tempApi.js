@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   'stocks': [
     {'name': 'ex1'},
     {'name': 'ex2'},

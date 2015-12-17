@@ -3,6 +3,15 @@
 import React from 'react';
 
 var StockList = React.createClass({
+
+  propTypes: {
+    stocks: React.PropTypes.array.isRequired
+  },
+
+  removeStock: function(name) {
+    console.log(name);
+  },
+
   render: function() {
 
     var createStockItem = function(stock) {
@@ -10,7 +19,7 @@ var StockList = React.createClass({
         <li key={stock.name} className="list-group-item">
           {stock.name}
           <span className="pull-right">
-            <button className="btn btn-xs btn-danger">
+            <button onClick={this.removeStock.bind(this, stock.name)} className="btn btn-xs btn-danger">
               <span className="glyphicon glyphicon-remove"></span>
             </button>
           </span>
@@ -21,10 +30,12 @@ var StockList = React.createClass({
     return (
       <div>
         <ul className="list-group">
-          {this.props.stocks.map(createStockItem)}
+          {/*bind each StockItem to StockList for access to removeStock*/}
+          {this.props.stocks.map(createStockItem.bind(this))}
         </ul>
       </div>
     );
+
   }
 });
 

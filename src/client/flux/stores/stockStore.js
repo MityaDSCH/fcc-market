@@ -42,4 +42,4 @@ Dispatcher.register(function(action) {
 
 });
 
-module.exports = StockStore;
+export default StockStore;

@@ -19910,6 +19910,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var StockList = _react2.default.createClass({
   displayName: 'StockList',
 
+  propTypes: {
+    stocks: _react2.default.PropTypes.array.isRequired
+  },
+
+  removeStock: function removeStock(name) {
+    console.log(name);
+  },
+
   render: function render() {
 
     var createStockItem = function createStockItem(stock) {
@@ -19922,7 +19930,7 @@ var StockList = _react2.default.createClass({
           { className: 'pull-right' },
           _react2.default.createElement(
             'button',
-            { className: 'btn btn-xs btn-danger' },
+            { onClick: this.removeStock.bind(this, stock.name), className: 'btn btn-xs btn-danger' },
             _react2.default.createElement('span', { className: 'glyphicon glyphicon-remove' })
           )
         )
@@ -19935,7 +19943,7 @@ var StockList = _react2.default.createClass({
       _react2.default.createElement(
         'ul',
         { className: 'list-group' },
-        this.props.stocks.map(createStockItem)
+        this.props.stocks.map(createStockItem.bind(this))
       )
     );
   }
@@ -19945,6 +19953,10 @@ exports.default = StockList;
 
 },{"react":164}],170:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _appDispatcher = require('../dispatcher/appDispatcher.js');
 
@@ -19969,10 +19981,14 @@ var InitAction = {
   }
 };
 
-module.exports = InitAction;
+exports.default = InitAction;
 
 },{"../constants/actionTypes":171,"../dispatcher/appDispatcher.js":172,"../tempApi.js":174}],171:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _keymirror = require('keymirror');
 
@@ -19980,19 +19996,27 @@ var _keymirror2 = _interopRequireDefault(_keymirror);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = (0, _keymirror2.default)({
+exports.default = (0, _keymirror2.default)({
   INIT: null
 });
 
 },{"keymirror":32}],172:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _flux = require('flux');
 
-module.exports = new _flux.Dispatcher();
+exports.default = new _flux.Dispatcher();
 
 },{"flux":29}],173:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _appDispatcher = require('../dispatcher/appDispatcher.js');
 
@@ -20047,12 +20071,15 @@ _appDispatcher2.default.register(function (action) {
   }
 });
 
-module.exports = StockStore;
+exports.default = StockStore;
 
 },{"../constants/actionTypes.js":171,"../dispatcher/appDispatcher.js":172,"events":1,"object-assign":33}],174:[function(require,module,exports){
 'use strict';
 
-module.exports = {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
   'stocks': [{ 'name': 'ex1' }, { 'name': 'ex2' }, { 'name': 'ex3' }, { 'name': 'ex4' }]
 };
 

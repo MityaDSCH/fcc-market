@@ -39,7 +39,7 @@ gulp.task('html', function() {
 gulp.task('client-js', function() {
   /*watchify(*/browserify(config.paths.mainJs)/*)*/
     .transform('babelify', {presets: ['es2015', 'react']})
-    .on('error', console.log)
+    .on('error', console.error.bind(console))
     .bundle()
     .pipe(source('bundle.js'))
     .pipe(gulp.dest(config.paths.clientDist + '/scripts'));
@@ -47,6 +47,7 @@ gulp.task('client-js', function() {
 
 gulp.task('lint', function() {
   return gulp.src(config.paths.js)
+    .on('error', console.error.bind(console))
     .pipe(lint({config: './eslint.config.json'}))
     .pipe(lint.format());
 });
