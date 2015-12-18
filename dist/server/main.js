@@ -2,6 +2,7 @@
 
 var express = require('express');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
 var app = express();
 var routes = require('./routes.js');
@@ -16,7 +17,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use('/', express.static('./client'));
-app.use('/api', express.static('./server/'))
+app.use('/api', express.static('./server'))
+
+app.use(bodyParser.json());
 
 routes(app);
 

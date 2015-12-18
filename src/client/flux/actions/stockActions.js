@@ -11,19 +11,24 @@ var stockActions = {
     $.get(apiUrl, function(stocks) {
       Dispatcher.dispatch({
         actionType: ActionTypes.INIT,
-        initData: stocks
+        stockData: stocks
       });
     });
   },
 
   deleteStock: function(name) {
-
+    $.get(apiUrl + '/delete/name=' + name, function(result) {
+      Dispatcher.dispatch({
+        actionType: ActionTypes.DELETE_STOCK,
+        stockData: result
+      });
+    });
   },
 
   addStock: function(data) {
-    
+
   }
 
 };
 
-export default InitAction;
+export default stockActions;

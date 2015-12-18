@@ -9,7 +9,7 @@ var InitAction = {
     $.get(apiUrl, function(stocks) {
       Dispatcher.dispatch({
         actionType: ActionTypes.INIT,
-        initData: stocks
+        stockData: stocks
       });
     });
   }

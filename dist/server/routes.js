@@ -11,5 +11,15 @@ module.exports = function (app) {
   app.route('/api')
     .get(function(req, res) {
       StockHandler.getStocks(req, res);
-    })
+    });
+
+  app.route('/api/delete/:name')
+    .get(function(req, res) {
+      StockHandler.deleteStock(req, res);
+    });
+
+  app.route('/api')
+    .post(function(req, res) {
+      StockHandler.addStock(req, res);
+    });
 };

@@ -4,8 +4,8 @@ import React from 'react';
 
 var StockList = React.createClass({
 
-  removeStock: function(name) {
-    console.log(name);
+  deleteStock: function(name, e) {
+    this.props.deleteStock(name);
   },
 
   render: function() {
@@ -15,7 +15,7 @@ var StockList = React.createClass({
         <li key={stock.name} className="list-group-item">
           {stock.name}
           <span className="pull-right">
-            <button onClick={this.removeStock.bind(this, stock.name)} className="btn btn-xs btn-danger">
+            <button onClick={this.deleteStock.bind(this, stock.name)} className="btn btn-xs btn-danger">
               <span className="glyphicon glyphicon-remove"></span>
             </button>
           </span>

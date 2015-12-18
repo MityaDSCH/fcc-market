@@ -7,6 +7,7 @@ import Header from './header/header.jsx';
 import StockList from './stockList/stockList.jsx';
 import StockInput from './stockInput/stockInput.jsx';
 
+import StockActions from '../flux/actions/stockActions.js';
 import StockStore from '../flux/stores/stockStore.js';
 
 var App = React.createClass({
@@ -24,7 +25,11 @@ var App = React.createClass({
   _onChange: function() {
     this.setState({
       stocks: StockStore.getAllStocks()
-    })
+    });
+  },
+
+  deleteStock: function(name) {
+    StockActions.deleteStock(name);
   },
 
   render: function() {
@@ -35,7 +40,7 @@ var App = React.createClass({
         <div>
           <StockInput />
           <br />
-          <StockList stocks={this.state.stocks} />
+          <StockList deleteStock={this.deleteStock} stocks={this.state.stocks} />
         </div>
       </div>
     );
