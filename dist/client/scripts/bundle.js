@@ -19992,7 +19992,10 @@ var _keymirror2 = _interopRequireDefault(_keymirror);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _keymirror2.default)({
-  INIT: null
+  INIT: null,
+  UPDATE_STOCK: null,
+  CREATE_STOCK: null,
+  DELETE_STOCK: null
 });
 
 },{"keymirror":32}],172:[function(require,module,exports){

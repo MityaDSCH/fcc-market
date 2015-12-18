@@ -9,3 +9,11 @@ exports.getStocks = function(req, res) {
     res.json(stocks);
   });
 };
+
+exports.deleteStock = function(req, res) {
+
+};
+
+exports.addStock = function(req, res) {
+
+};
