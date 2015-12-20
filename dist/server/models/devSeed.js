@@ -6,19 +6,19 @@ var Stock = require('./stocks.model.js');
 Stock.find({}).remove().exec(function() {
 
   Stock.create({
-    name: 'ex1',
+    name: 'MSFT',
     acquired: new Date(),
     values: []
   }, {
-    name: 'ex2',
+    name: 'APL',
     acquired: new Date(),
     values: []
   }, {
-    name: 'ex3',
+    name: 'NYSE',
     acquired: new Date(),
     values: []
   }, {
-    name: 'ex4',
+    name: 'AMEX',
     acquired: new Date(),
     values: []
   }, function() {
