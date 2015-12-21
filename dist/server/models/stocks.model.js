@@ -25,8 +25,6 @@ Stock.pre('save', function(next) {
     next();
   };
 
-  // console.log('pre-bind: ', this);
-
   api.getChart({
     'Normalized': false,
     'NumberOfDays': 365,
@@ -37,7 +35,7 @@ Stock.pre('save', function(next) {
       'Params': ['c']
     }]
   }, responseHandler.bind(this));
-  
+
 });
 
 module.exports = mongoose.model('Stock', Stock);

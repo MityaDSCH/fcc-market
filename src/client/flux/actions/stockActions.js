@@ -25,8 +25,8 @@ var stockActions = {
     });
   },
 
-  addStock: function(data) {
-
+  addStock: function(name) {
+    console.log(name);
   }
 
 };

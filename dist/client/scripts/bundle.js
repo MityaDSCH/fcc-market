@@ -32107,7 +32107,8 @@ var App = _react2.default.createClass({
 
   getInitialState: function getInitialState() {
     return {
-      stocks: _stockStore2.default.getAllStocks()
+      stocks: _stockStore2.default.getAllStocks(),
+      addStockInput: ''
     };
   },
 
@@ -32125,6 +32126,14 @@ var App = _react2.default.createClass({
     _stockActions2.default.deleteStock(name);
   },
 
+  setInputState: function setInputState(event) {
+    return this.setState({ addStockInput: event.target.value });
+  },
+
+  addStock: function addStock() {
+    _stockActions2.default.addStock(this.state.addStockInput);
+  },
+
   render: function render() {
     return _react2.default.createElement(
       'div',
@@ -32134,9 +32143,12 @@ var App = _react2.default.createClass({
       _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_stockInput2.default, null),
+        _react2.default.createElement(_stockInput2.default, { addStockInput: this.state.addStockInput,
+          onChange: this.setInputState,
+          addStockButton: this.addStock }),
         _react2.default.createElement('br', null),
-        _react2.default.createElement(_stockList2.default, { deleteStock: this.deleteStock, stocks: this.state.stocks })
+        _react2.default.createElement(_stockList2.default, { deleteStock: this.deleteStock,
+          stocks: this.state.stocks })
       )
     );
   }
@@ -32228,6 +32240,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var StockInput = _react2.default.createClass({
   displayName: 'StockInput',
 
+  propTypes: {
+    addStockInput: _react2.default.PropTypes.string,
+    addStockButton: _react2.default.PropTypes.func.isRequired,
+    onChange: _react2.default.PropTypes.func.isRequired
+  },
+
   render: function render() {
 
     return _react2.default.createElement(
@@ -32239,13 +32257,19 @@ var StockInput = _react2.default.createClass({
         _react2.default.createElement(
           'div',
           { className: 'input-group' },
-          _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Search for...' }),
+          _react2.default.createElement('input', { type: 'text',
+            className: 'form-control',
+            placeholder: 'Search for...',
+            value: this.props.addStockInput,
+            onChange: this.props.onChange }),
           _react2.default.createElement(
             'span',
             { className: 'input-group-btn' },
             _react2.default.createElement(
               'button',
-              { className: 'btn btn-success', type: 'button' },
+              { className: 'btn btn-success',
+                type: 'button',
+                onClick: this.props.addStockButton },
               'Add Stock'
             )
           )
@@ -32253,6 +32277,7 @@ var StockInput = _react2.default.createClass({
       )
     );
   }
+
 });
 
 exports.default = StockInput;
@@ -32380,7 +32405,9 @@ var stockActions = {
     });
   },
 
-  addStock: function addStock(data) {}
+  addStock: function addStock(name) {
+    console.log(name);
+  }
 
 };
 
@@ -32401,7 +32428,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = (0, _keymirror2.default)({
   INIT: null,
-  UPDATE_STOCK: null,
   CREATE_STOCK: null,
   DELETE_STOCK: null
 });

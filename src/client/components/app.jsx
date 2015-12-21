@@ -14,7 +14,8 @@ var App = React.createClass({
 
   getInitialState: function() {
     return {
-      stocks: StockStore.getAllStocks()
+      stocks: StockStore.getAllStocks(),
+      addStockInput: ''
     };
   },
 
@@ -32,15 +33,26 @@ var App = React.createClass({
     StockActions.deleteStock(name);
   },
 
+  setInputState: function(event) {
+    return this.setState({addStockInput: event.target.value});
+  },
+
+  addStock: function() {
+    StockActions.addStock(this.state.addStockInput);
+  },
+
   render: function() {
     return (
       <div id="page-container">
         <Header />
         <Chart />
         <div>
-          <StockInput />
+          <StockInput addStockInput={this.state.addStockInput}
+                      onChange={this.setInputState}
+                      addStockButton={this.addStock}/>
           <br />
-          <StockList deleteStock={this.deleteStock} stocks={this.state.stocks} />
+          <StockList deleteStock={this.deleteStock}
+                     stocks={this.state.stocks} />
         </div>
       </div>
     );
