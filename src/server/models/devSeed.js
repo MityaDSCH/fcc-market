@@ -8,21 +8,7 @@ Stock.find({}).remove().exec(function() {
   Stock.create({
     name: 'MSFT',
     acquired: new Date(),
-    values: []
-  }, {
-    name: 'APL',
-    acquired: new Date(),
-    values: []
-  }, {
-    name: 'NYSE',
-    acquired: new Date(),
-    values: []
-  }, {
-    name: 'AMEX',
-    acquired: new Date(),
-    values: []
-  }, function() {
-    console.log('finished seed');
+    interactiveChart: {}
   });
 
 });

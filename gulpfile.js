@@ -85,15 +85,16 @@ gulp.task('watch', function() {
   gulp.watch(config.paths.scss, ['sass', 'scss-lint']);
 });
 
-gulp.task('start', ['build', 'watch'], function () {
+gulp.task('start', function () {
   nodemon({
     script: config.paths.serverDist + '/main.js',
     ext: '',
-    env: { 'NODE_ENV': 'development' }
+    env: { 'NODE_ENV': 'development' },
+    tasks: ['build']
   });
 });
 
-gulp.task('open', ['start'], function() {
+gulp.task('open', ['start', 'watch'], function() {
   gulp.src('./dist/client/index.html')
     .pipe(open({
       uri: config.baseUrl + ':' + config.port + '/'
