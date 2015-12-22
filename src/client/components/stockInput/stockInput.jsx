@@ -10,6 +10,12 @@ var StockInput = React.createClass({
     onChange: React.PropTypes.func.isRequired
   },
 
+  howDoesThisWork: function(e) {
+    if (e.which === 13 && this.props.addStockInput.length > 0) {
+      this.props.addStockButton;
+    }
+  },
+
   render: function() {
 
     return (
@@ -20,7 +26,8 @@ var StockInput = React.createClass({
                    className="form-control"
                    placeholder="Search for..."
                    value={this.props.addStockInput}
-                   onChange={this.props.onChange}>
+                   onChange={this.props.onChange}
+                   onKeyDown={this.howDoesThisWork}>
             </input>
             <span className="input-group-btn">
               <button className="btn btn-success"

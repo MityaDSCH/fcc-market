@@ -32246,6 +32246,12 @@ var StockInput = _react2.default.createClass({
     onChange: _react2.default.PropTypes.func.isRequired
   },
 
+  howDoesThisWork: function howDoesThisWork(e) {
+    if (e.which === 13 && this.props.addStockInput.length > 0) {
+      this.props.addStockButton;
+    }
+  },
+
   render: function render() {
 
     return _react2.default.createElement(
@@ -32261,7 +32267,8 @@ var StockInput = _react2.default.createClass({
             className: 'form-control',
             placeholder: 'Search for...',
             value: this.props.addStockInput,
-            onChange: this.props.onChange }),
+            onChange: this.props.onChange,
+            onKeyDown: this.howDoesThisWork }),
           _react2.default.createElement(
             'span',
             { className: 'input-group-btn' },
