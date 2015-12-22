@@ -21,14 +21,16 @@ var StockInput = React.createClass({
 
     var helpBlock = null;
     var submitBtnClasses = "btn btn-success";
+    var formGroupClasses = "col-lg-12 form-group";
     if (this.props.searchResults.length > 0) {
       helpBlock = <HelpBlock results={this.props.searchResults} />;
-      submitBtnClasses = "btn btn-success disabled"
+      submitBtnClasses = "btn btn-default disabled"
+      formGroupClasses = "col-lg-12 form-group has-warning has-feedback";
     }
 
     return (
       <div className="row">
-        <div className="col-lg-12" id="stock-input">
+        <div className={formGroupClasses} id="stock-input">
           <div className="input-group">
             <input type="text"
                    className="form-control"

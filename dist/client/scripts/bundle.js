@@ -32325,9 +32325,11 @@ var StockInput = _react2.default.createClass({
 
     var helpBlock = null;
     var submitBtnClasses = "btn btn-success";
+    var formGroupClasses = "col-lg-12 form-group";
     if (this.props.searchResults.length > 0) {
       helpBlock = _react2.default.createElement(_helpBlock2.default, { results: this.props.searchResults });
-      submitBtnClasses = "btn btn-success disabled";
+      submitBtnClasses = "btn btn-default disabled";
+      formGroupClasses = "col-lg-12 form-group has-warning has-feedback";
     }
 
     return _react2.default.createElement(
@@ -32335,7 +32337,7 @@ var StockInput = _react2.default.createClass({
       { className: 'row' },
       _react2.default.createElement(
         'div',
-        { className: 'col-lg-12', id: 'stock-input' },
+        { className: formGroupClasses, id: 'stock-input' },
         _react2.default.createElement(
           'div',
           { className: 'input-group' },
