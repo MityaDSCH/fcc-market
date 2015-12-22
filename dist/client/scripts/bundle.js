@@ -32246,43 +32246,63 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var HelpBlock = _react2.default.createClass({
   displayName: 'HelpBlock',
 
-  propTypes: {
-    results: _react2.default.PropTypes.array.isRequired
-  },
-
   render: function render() {
 
-    var createStockSuggestion = function createStockSuggestion(stock) {
+    if (this.props.results === 'Exceeded requests') {
+
+      console.log(this.props.results);
+
       return _react2.default.createElement(
-        'li',
-        { key: stock.Symbol, className: 'list-group-item' },
+        'div',
+        null,
         _react2.default.createElement(
           'span',
-          { className: 'badge badge-info' },
-          stock.Symbol
-        ),
-        stock.Name
-      );
-    };
-
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(
-        'span',
-        { id: 'help-block', className: 'help-block text-warning' },
-        _react2.default.createElement(
-          'p',
-          { className: 'text-center' },
-          'That\'s not a valid stock symbol, did you want one of these?'
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'list-group' },
-          this.props.results.map(createStockSuggestion)
+          { id: 'help-block', className: 'help-block text-warning' },
+          _react2.default.createElement(
+            'p',
+            { className: 'text-center' },
+            'Too many request/sec, try again in a bit.'
+          )
         )
-      )
-    );
+      );
+    } else {
+
+      var createStockSuggestion = function createStockSuggestion(stock) {
+        if (stock.Symbol && stock.Exchange && stock.Name) {
+          return _react2.default.createElement(
+            'li',
+            { key: stock.Symbol + stock.Exchange, className: 'list-group-item' },
+            _react2.default.createElement(
+              'span',
+              { className: 'badge badge-info' },
+              stock.Symbol
+            ),
+            stock.Name
+          );
+        } else {
+          return null;
+        }
+      };
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'span',
+          { id: 'help-block', className: 'help-block text-warning' },
+          _react2.default.createElement(
+            'p',
+            { className: 'text-center' },
+            'That\'s not a valid stock symbol, did you want one of these?'
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'list-group' },
+            this.props.results.map(createStockSuggestion)
+          )
+        )
+      );
+    }
   }
 
 });
@@ -32494,7 +32514,7 @@ var stockActions = {
 
   addStock: function addStock(name) {
     $.get(apiUrl + '/add/name=' + name, function (result) {
-      if (Array.isArray(result)) {
+      if (Array.isArray(result) || result === 'Exceeded requests') {
         _appDispatcher2.default.dispatch({
           actionType: _actionTypes2.default.STOCK_NOT_FOUND,
           searchData: result
@@ -32622,7 +32642,7 @@ _appDispatcher2.default.register(function (action) {
 
     case _actionTypes2.default.ADD_STOCK:
       _stocks.push(action.newStock);
-      console.log(action.newStock);
+      _searchResults = [];
       StockStore.emitChange();
       break;
 

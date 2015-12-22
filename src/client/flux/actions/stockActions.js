@@ -27,7 +27,7 @@ var stockActions = {
 
   addStock: function(name) {
     $.get(apiUrl + '/add/name=' + name, function(result) {
-      if (Array.isArray(result)) {
+      if (Array.isArray(result) || result === 'Exceeded requests') {
         Dispatcher.dispatch({
           actionType: ActionTypes.STOCK_NOT_FOUND,
           searchData: result

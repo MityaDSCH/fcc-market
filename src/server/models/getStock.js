@@ -46,7 +46,13 @@ module.exports = function(str, callback) {
 
   function lookupStock() {
     api.lookupSymbol(str, function(result) {
-      callback(JSON.parse(result), false);
+
+      if (result.charAt(0) === '[') {
+        callback(JSON.parse(result), false);
+      } else {
+        callback('Exceeded requests', false);
+      }
+
     });
   }
 

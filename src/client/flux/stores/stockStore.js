@@ -57,7 +57,7 @@ Dispatcher.register(function(action) {
 
     case ActionTypes.ADD_STOCK:
       _stocks.push(action.newStock);
-      console.log(action.newStock);
+      _searchResults = [];
       StockStore.emitChange();
       break;
 
