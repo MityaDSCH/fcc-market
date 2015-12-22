@@ -32246,9 +32246,9 @@ var StockInput = _react2.default.createClass({
     onChange: _react2.default.PropTypes.func.isRequired
   },
 
-  howDoesThisWork: function howDoesThisWork(e) {
+  inputKeyPress: function inputKeyPress(e) {
     if (e.which === 13 && this.props.addStockInput.length > 0) {
-      this.props.addStockButton;
+      this.props.addStockButton();
     }
   },
 
@@ -32268,7 +32268,7 @@ var StockInput = _react2.default.createClass({
             placeholder: 'Search for...',
             value: this.props.addStockInput,
             onChange: this.props.onChange,
-            onKeyDown: this.howDoesThisWork }),
+            onKeyDown: this.inputKeyPress }),
           _react2.default.createElement(
             'span',
             { className: 'input-group-btn' },
@@ -32413,7 +32413,9 @@ var stockActions = {
   },
 
   addStock: function addStock(name) {
-    console.log(name);
+    $.get(apiUrl + '/add/name=' + name, function (result) {
+      console.log(result);
+    });
   }
 
 };

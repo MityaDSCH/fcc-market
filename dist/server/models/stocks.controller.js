@@ -2,6 +2,7 @@
 
 var Stocks = require('./stocks.model.js');
 var querystring = require('querystring');
+var getStock = require('./getStock.js');
 
 exports.getStocks = function(req, res) {
   Stocks.find({}).exec(function(err, stocks) {
@@ -20,5 +21,12 @@ exports.deleteStock = function(req, res) {
 };
 
 exports.addStock = function(req, res) {
-  console.log('add controller');
+  var urlObj = querystring.parse(req.url.substr(9, req.url.length - 9));
+  getStock(urlObj.name, function(result, bool) {
+    if (bool) {
+      res.status(200).send(result);
+    } else {
+      res.status(200).send(result);
+    }
+  });
 };

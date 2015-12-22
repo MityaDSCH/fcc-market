@@ -10,9 +10,9 @@ var StockInput = React.createClass({
     onChange: React.PropTypes.func.isRequired
   },
 
-  howDoesThisWork: function(e) {
+  inputKeyPress: function(e) {
     if (e.which === 13 && this.props.addStockInput.length > 0) {
-      this.props.addStockButton;
+      this.props.addStockButton();
     }
   },
 
@@ -27,7 +27,7 @@ var StockInput = React.createClass({
                    placeholder="Search for..."
                    value={this.props.addStockInput}
                    onChange={this.props.onChange}
-                   onKeyDown={this.howDoesThisWork}>
+                   onKeyDown={this.inputKeyPress}>
             </input>
             <span className="input-group-btn">
               <button className="btn btn-success"

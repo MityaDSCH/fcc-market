@@ -26,7 +26,13 @@ var stockActions = {
   },
 
   addStock: function(name) {
-    console.log(name);
+    $.get(apiUrl + '/add/name=' + name, function(result) {
+      if (Array.isArray(result)) {
+        // handle error msg
+      } else {
+        // add new stock data to state
+      }
+    });
   }
 
 };

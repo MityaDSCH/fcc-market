@@ -15,27 +15,4 @@ var Stock = new Schema({
   interactiveChart: Object
 });
 
-Stock.pre('save', function(next) {
-
-  var chart = {};
-
-  var responseHandler = function(result) {
-    this.interactiveChart = result;
-
-    next();
-  };
-
-  api.getChart({
-    'Normalized': false,
-    'NumberOfDays': 365,
-    'DataPeriod': 'Day',
-    'Elements': [{
-      'Symbol': this.name,
-      'Type': 'price',
-      'Params': ['c']
-    }]
-  }, responseHandler.bind(this));
-
-});
-
 module.exports = mongoose.model('Stock', Stock);
