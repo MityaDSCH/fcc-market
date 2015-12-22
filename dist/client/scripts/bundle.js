@@ -32494,15 +32494,16 @@ var stockActions = {
 
   addStock: function addStock(name) {
     $.get(apiUrl + '/add/name=' + name, function (result) {
-      result = JSON.parse(result);
-      console.log(result);
       if (Array.isArray(result)) {
         _appDispatcher2.default.dispatch({
           actionType: _actionTypes2.default.STOCK_NOT_FOUND,
           searchData: result
         });
       } else {
-        // add new stock data to state
+        _appDispatcher2.default.dispatch({
+          actionType: _actionTypes2.default.ADD_STOCK,
+          newStock: result
+        });
       }
     });
   }
@@ -32616,6 +32617,12 @@ _appDispatcher2.default.register(function (action) {
 
     case _actionTypes2.default.STOCK_NOT_FOUND:
       _searchResults = action.searchData;
+      StockStore.emitChange();
+      break;
+
+    case _actionTypes2.default.ADD_STOCK:
+      _stocks.push(action.newStock);
+      console.log(action.newStock);
       StockStore.emitChange();
       break;
 

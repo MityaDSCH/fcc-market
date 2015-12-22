@@ -55,6 +55,12 @@ Dispatcher.register(function(action) {
       StockStore.emitChange();
       break;
 
+    case ActionTypes.ADD_STOCK:
+      _stocks.push(action.newStock);
+      console.log(action.newStock);
+      StockStore.emitChange();
+      break;
+
     default:
 
   }

@@ -46,7 +46,7 @@ module.exports = function(str, callback) {
 
   function lookupStock() {
     api.lookupSymbol(str, function(result) {
-      callback(result, false);
+      callback(JSON.parse(result), false);
     });
   }
 
