@@ -20,7 +20,6 @@ module.exports = function(str, callback) {
   };
 
   var testResponse = function(result) {
-    console.log(str.trim(), result);
     // if the reponse is JSON it was a success
     try {
       var chart = JSON.parse(result);

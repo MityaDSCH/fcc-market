@@ -27,8 +27,13 @@ var stockActions = {
 
   addStock: function(name) {
     $.get(apiUrl + '/add/name=' + name, function(result) {
+      result = JSON.parse(result);
+      console.log(result);
       if (Array.isArray(result)) {
-        // handle error msg
+        Dispatcher.dispatch({
+          actionType: ActionTypes.STOCK_NOT_FOUND,
+          searchData: result
+        });
       } else {
         // add new stock data to state
       }

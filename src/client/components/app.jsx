@@ -15,6 +15,7 @@ var App = React.createClass({
   getInitialState: function() {
     return {
       stocks: StockStore.getAllStocks(),
+      searchResults: [],
       addStockInput: ''
     };
   },
@@ -25,7 +26,8 @@ var App = React.createClass({
 
   _onChange: function() {
     this.setState({
-      stocks: StockStore.getAllStocks()
+      stocks: StockStore.getAllStocks(),
+      searchResults: StockStore.getSearchResults()
     });
   },
 
@@ -34,7 +36,10 @@ var App = React.createClass({
   },
 
   setInputState: function(event) {
-    return this.setState({addStockInput: event.target.value});
+    return this.setState({
+      addStockInput: event.target.value,
+      searchResults: []
+    });
   },
 
   addStock: function() {
@@ -49,7 +54,8 @@ var App = React.createClass({
         <div>
           <StockInput addStockInput={this.state.addStockInput}
                       onChange={this.setInputState}
-                      addStockButton={this.addStock}/>
+                      addStockButton={this.addStock}
+                      searchResults={this.state.searchResults} />
           <br />
           <StockList deleteStock={this.deleteStock}
                      stocks={this.state.stocks} />

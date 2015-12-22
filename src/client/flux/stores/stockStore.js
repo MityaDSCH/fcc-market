@@ -8,6 +8,7 @@ import _ from 'lodash';
 var CHANGE_EVENT = 'change';
 
 var _stocks = [];
+var _searchResults = [];
 
 var StockStore = assign({}, EventEmitter.prototype, {
 
@@ -25,6 +26,10 @@ var StockStore = assign({}, EventEmitter.prototype, {
 
   getAllStocks: function() {
     return _stocks;
+  },
+
+  getSearchResults: function() {
+    return _searchResults;
   }
 
 });
@@ -42,6 +47,11 @@ Dispatcher.register(function(action) {
       var curStock = _.find(_stocks, {name: action.stockData.name});
       var index = _.indexOf(_stocks, curStock);
       _stocks.splice(index, 1);
+      StockStore.emitChange();
+      break;
+
+    case ActionTypes.STOCK_NOT_FOUND:
+      _searchResults = action.searchData;
       StockStore.emitChange();
       break;
 

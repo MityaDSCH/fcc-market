@@ -32108,6 +32108,7 @@ var App = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return {
       stocks: _stockStore2.default.getAllStocks(),
+      searchResults: [],
       addStockInput: ''
     };
   },
@@ -32118,7 +32119,8 @@ var App = _react2.default.createClass({
 
   _onChange: function _onChange() {
     this.setState({
-      stocks: _stockStore2.default.getAllStocks()
+      stocks: _stockStore2.default.getAllStocks(),
+      searchResults: _stockStore2.default.getSearchResults()
     });
   },
 
@@ -32127,7 +32129,10 @@ var App = _react2.default.createClass({
   },
 
   setInputState: function setInputState(event) {
-    return this.setState({ addStockInput: event.target.value });
+    return this.setState({
+      addStockInput: event.target.value,
+      searchResults: []
+    });
   },
 
   addStock: function addStock() {
@@ -32145,7 +32150,8 @@ var App = _react2.default.createClass({
         null,
         _react2.default.createElement(_stockInput2.default, { addStockInput: this.state.addStockInput,
           onChange: this.setInputState,
-          addStockButton: this.addStock }),
+          addStockButton: this.addStock,
+          searchResults: this.state.searchResults }),
         _react2.default.createElement('br', null),
         _react2.default.createElement(_stockList2.default, { deleteStock: this.deleteStock,
           stocks: this.state.stocks })
@@ -32157,7 +32163,7 @@ var App = _react2.default.createClass({
 
 exports.default = App;
 
-},{"../flux/actions/stockActions.js":172,"../flux/stores/stockStore.js":175,"./chart/chart.jsx":167,"./header/header.jsx":168,"./stockInput/stockInput.jsx":169,"./stockList/stockList.jsx":170,"react":165}],167:[function(require,module,exports){
+},{"../flux/actions/stockActions.js":173,"../flux/stores/stockStore.js":176,"./chart/chart.jsx":167,"./header/header.jsx":168,"./stockInput/stockInput.jsx":170,"./stockList/stockList.jsx":171,"react":165}],167:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32237,6 +32243,69 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var HelpBlock = _react2.default.createClass({
+  displayName: 'HelpBlock',
+
+  propTypes: {
+    results: _react2.default.PropTypes.array.isRequired
+  },
+
+  render: function render() {
+
+    var createStockSuggestion = function createStockSuggestion(stock) {
+      return _react2.default.createElement(
+        'li',
+        { key: stock.Symbol, className: 'list-group-item' },
+        _react2.default.createElement(
+          'span',
+          { className: 'badge badge-info' },
+          stock.Symbol
+        ),
+        stock.Name
+      );
+    };
+
+    return _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(
+        'span',
+        { id: 'help-block', className: 'help-block text-warning' },
+        _react2.default.createElement(
+          'p',
+          { className: 'text-center' },
+          'That\'s not a valid stock symbol, did you want one of these?'
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'list-group' },
+          this.props.results.map(createStockSuggestion)
+        )
+      )
+    );
+  }
+
+});
+
+exports.default = HelpBlock;
+
+},{"react":165}],170:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _helpBlock = require('./helpBlock/helpBlock.jsx');
+
+var _helpBlock2 = _interopRequireDefault(_helpBlock);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var StockInput = _react2.default.createClass({
   displayName: 'StockInput',
 
@@ -32254,18 +32323,26 @@ var StockInput = _react2.default.createClass({
 
   render: function render() {
 
+    var helpBlock = null;
+    var submitBtnClasses = "btn btn-success";
+    if (this.props.searchResults.length > 0) {
+      helpBlock = _react2.default.createElement(_helpBlock2.default, { results: this.props.searchResults });
+      submitBtnClasses = "btn btn-success disabled";
+    }
+
     return _react2.default.createElement(
       'div',
       { className: 'row' },
       _react2.default.createElement(
         'div',
-        { className: 'col-lg-12' },
+        { className: 'col-lg-12', id: 'stock-input' },
         _react2.default.createElement(
           'div',
           { className: 'input-group' },
           _react2.default.createElement('input', { type: 'text',
             className: 'form-control',
             placeholder: 'Search for...',
+            'aria-describedby': 'help-block',
             value: this.props.addStockInput,
             onChange: this.props.onChange,
             onKeyDown: this.inputKeyPress }),
@@ -32274,13 +32351,14 @@ var StockInput = _react2.default.createClass({
             { className: 'input-group-btn' },
             _react2.default.createElement(
               'button',
-              { className: 'btn btn-success',
+              { className: submitBtnClasses,
                 type: 'button',
                 onClick: this.props.addStockButton },
               'Add Stock'
             )
           )
-        )
+        ),
+        helpBlock
       )
     );
   }
@@ -32289,7 +32367,7 @@ var StockInput = _react2.default.createClass({
 
 exports.default = StockInput;
 
-},{"react":165}],170:[function(require,module,exports){
+},{"./helpBlock/helpBlock.jsx":169,"react":165}],171:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32342,7 +32420,7 @@ var StockList = _react2.default.createClass({
 
 exports.default = StockList;
 
-},{"react":165}],171:[function(require,module,exports){
+},{"react":165}],172:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32373,7 +32451,7 @@ var InitAction = {
 
 exports.default = InitAction;
 
-},{"../constants/actionTypes":173,"../dispatcher/appDispatcher.js":174}],172:[function(require,module,exports){
+},{"../constants/actionTypes":174,"../dispatcher/appDispatcher.js":175}],173:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32414,7 +32492,16 @@ var stockActions = {
 
   addStock: function addStock(name) {
     $.get(apiUrl + '/add/name=' + name, function (result) {
+      result = JSON.parse(result);
       console.log(result);
+      if (Array.isArray(result)) {
+        _appDispatcher2.default.dispatch({
+          actionType: _actionTypes2.default.STOCK_NOT_FOUND,
+          searchData: result
+        });
+      } else {
+        // add new stock data to state
+      }
     });
   }
 
@@ -32422,7 +32509,7 @@ var stockActions = {
 
 exports.default = stockActions;
 
-},{"../constants/actionTypes":173,"../dispatcher/appDispatcher.js":174}],173:[function(require,module,exports){
+},{"../constants/actionTypes":174,"../dispatcher/appDispatcher.js":175}],174:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32437,11 +32524,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = (0, _keymirror2.default)({
   INIT: null,
-  CREATE_STOCK: null,
-  DELETE_STOCK: null
+  DELETE_STOCK: null,
+  ADD_STOCK: null,
+  STOCK_NOT_FOUND: null
 });
 
-},{"keymirror":32}],174:[function(require,module,exports){
+},{"keymirror":32}],175:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32452,7 +32540,7 @@ var _flux = require('flux');
 
 exports.default = new _flux.Dispatcher();
 
-},{"flux":29}],175:[function(require,module,exports){
+},{"flux":29}],176:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32482,6 +32570,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var CHANGE_EVENT = 'change';
 
 var _stocks = [];
+var _searchResults = [];
 
 var StockStore = (0, _objectAssign2.default)({}, _events.EventEmitter.prototype, {
 
@@ -32499,6 +32588,10 @@ var StockStore = (0, _objectAssign2.default)({}, _events.EventEmitter.prototype,
 
   getAllStocks: function getAllStocks() {
     return _stocks;
+  },
+
+  getSearchResults: function getSearchResults() {
+    return _searchResults;
   }
 
 });
@@ -32519,6 +32612,11 @@ _appDispatcher2.default.register(function (action) {
       StockStore.emitChange();
       break;
 
+    case _actionTypes2.default.STOCK_NOT_FOUND:
+      _searchResults = action.searchData;
+      StockStore.emitChange();
+      break;
+
     default:
 
   }
@@ -32526,7 +32624,7 @@ _appDispatcher2.default.register(function (action) {
 
 exports.default = StockStore;
 
-},{"../constants/actionTypes.js":173,"../dispatcher/appDispatcher.js":174,"events":1,"lodash":33,"object-assign":34}],176:[function(require,module,exports){
+},{"../constants/actionTypes.js":174,"../dispatcher/appDispatcher.js":175,"events":1,"lodash":33,"object-assign":34}],177:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -32549,4 +32647,4 @@ _initActions2.default.initApp();
 
 (0, _reactDom.render)(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
 
-},{"./components/app.jsx":166,"./flux/actions/initActions.js":171,"react":165,"react-dom":36}]},{},[176]);
+},{"./components/app.jsx":166,"./flux/actions/initActions.js":172,"react":165,"react-dom":36}]},{},[177]);
