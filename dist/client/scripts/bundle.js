@@ -32163,7 +32163,7 @@ var App = _react2.default.createClass({
 
 exports.default = App;
 
-},{"../flux/actions/stockActions.js":173,"../flux/stores/stockStore.js":176,"./chart/chart.jsx":167,"./header/header.jsx":168,"./stockInput/stockInput.jsx":170,"./stockList/stockList.jsx":171,"react":165}],167:[function(require,module,exports){
+},{"../flux/actions/stockActions.js":174,"../flux/stores/stockStore.js":177,"./chart/chart.jsx":167,"./header/header.jsx":169,"./stockInput/stockInput.jsx":171,"./stockList/stockList.jsx":172,"react":165}],167:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32174,23 +32174,50 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _d3Chart = require('./d3Chart.js');
+
+var _d3Chart2 = _interopRequireDefault(_d3Chart);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Chart = _react2.default.createClass({
   displayName: 'Chart',
 
+  componentDidMount: function componentDidMount() {
+    var el = _reactDom2.default.findDOMNode(this);
+    _d3Chart2.default.create(el, {
+      width: '100%',
+      height: '400px'
+    });
+  },
+
   render: function render() {
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement('svg', { id: 'chart' })
-    );
+    return _react2.default.createElement('div', null);
   }
 });
 
 exports.default = Chart;
 
-},{"react":165}],168:[function(require,module,exports){
+},{"./d3Chart.js":168,"react":165,"react-dom":36}],168:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var chart = {};
+
+chart.create = function (el, props) {
+
+  var svg = d3.select(el).append('svg').attr('width', '100%').append('rect').attr('width', props.width).attr('height', props.height);
+};
+
+exports.default = chart;
+
+},{}],169:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32230,7 +32257,7 @@ var Header = _react2.default.createClass({
 
 exports.default = Header;
 
-},{"react":165}],169:[function(require,module,exports){
+},{"react":165}],170:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32309,7 +32336,7 @@ var HelpBlock = _react2.default.createClass({
 
 exports.default = HelpBlock;
 
-},{"react":165}],170:[function(require,module,exports){
+},{"react":165}],171:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32389,7 +32416,7 @@ var StockInput = _react2.default.createClass({
 
 exports.default = StockInput;
 
-},{"./helpBlock/helpBlock.jsx":169,"react":165}],171:[function(require,module,exports){
+},{"./helpBlock/helpBlock.jsx":170,"react":165}],172:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32442,7 +32469,7 @@ var StockList = _react2.default.createClass({
 
 exports.default = StockList;
 
-},{"react":165}],172:[function(require,module,exports){
+},{"react":165}],173:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32473,7 +32500,7 @@ var InitAction = {
 
 exports.default = InitAction;
 
-},{"../constants/actionTypes":174,"../dispatcher/appDispatcher.js":175}],173:[function(require,module,exports){
+},{"../constants/actionTypes":175,"../dispatcher/appDispatcher.js":176}],174:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32532,7 +32559,7 @@ var stockActions = {
 
 exports.default = stockActions;
 
-},{"../constants/actionTypes":174,"../dispatcher/appDispatcher.js":175}],174:[function(require,module,exports){
+},{"../constants/actionTypes":175,"../dispatcher/appDispatcher.js":176}],175:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32552,7 +32579,7 @@ exports.default = (0, _keymirror2.default)({
   STOCK_NOT_FOUND: null
 });
 
-},{"keymirror":32}],175:[function(require,module,exports){
+},{"keymirror":32}],176:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32563,7 +32590,7 @@ var _flux = require('flux');
 
 exports.default = new _flux.Dispatcher();
 
-},{"flux":29}],176:[function(require,module,exports){
+},{"flux":29}],177:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32653,7 +32680,7 @@ _appDispatcher2.default.register(function (action) {
 
 exports.default = StockStore;
 
-},{"../constants/actionTypes.js":174,"../dispatcher/appDispatcher.js":175,"events":1,"lodash":33,"object-assign":34}],177:[function(require,module,exports){
+},{"../constants/actionTypes.js":175,"../dispatcher/appDispatcher.js":176,"events":1,"lodash":33,"object-assign":34}],178:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -32676,4 +32703,4 @@ _initActions2.default.initApp();
 
 (0, _reactDom.render)(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
 
-},{"./components/app.jsx":166,"./flux/actions/initActions.js":172,"react":165,"react-dom":36}]},{},[177]);
+},{"./components/app.jsx":166,"./flux/actions/initActions.js":173,"react":165,"react-dom":36}]},{},[178]);
