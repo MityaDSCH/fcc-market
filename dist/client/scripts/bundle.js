@@ -32137,7 +32137,7 @@ var App = _react2.default.createClass({
       'div',
       { id: 'page-container' },
       _react2.default.createElement(_header2.default, null),
-      _react2.default.createElement(_chart2.default, null),
+      _react2.default.createElement(_chart2.default, { stocks: this.state.stocks }),
       _react2.default.createElement(
         'div',
         null,
@@ -32178,12 +32178,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Chart = _react2.default.createClass({
   displayName: 'Chart',
-  componentDidMount: function componentDidMount() {
+
+  propTypes: {
+    stocks: _react2.default.PropTypes.array
+  },
+
+  componentWillReceiveProps: function componentWillReceiveProps(props) {
     var el = _reactDom2.default.findDOMNode(this);
-    _d3Chart2.default.create(el, {
-      width: '100%',
-      height: '400px'
-    });
+    if (props.stocks.length > 0) {
+      _d3Chart2.default.create(el, props.stocks.map(function (stock, i) {
+        return { //for each stock
+          name: stock.interactiveChart.Elements[0].Symbol, //return an object w/ the name
+          series: stock.interactiveChart.Positions.map(function (pos, i) {
+            return { // and a series arr of objects that's as long as the position arr
+              position: pos, // each object has corresponding pos
+              value: stock.interactiveChart.Elements[0].DataSeries.close.values[i], // value
+              date: stock.interactiveChart.Dates[i] // and date
+            };
+          })
+        };
+      }));
+    }
   },
   render: function render() {
     return _react2.default.createElement('div', { id: 'chart-container' });
@@ -32202,7 +32217,9 @@ var chart = {};
 
 chart.create = function (el, props) {
 
-  var svg = d3.select(el).append('svg').attr('width', '100%').attr('height', '100%').append('rect').attr('width', props.width).attr('height', props.height).attr('fill', '#666633');
+  console.log(props);
+
+  var line = d3.svg.line();
 };
 
 exports.default = chart;

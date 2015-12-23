@@ -50,7 +50,7 @@ var App = React.createClass({
     return (
       <div id="page-container">
         <Header />
-        <Chart />
+        <Chart stocks={this.state.stocks}/>
         <div>
           <StockInput addStockInput={this.state.addStockInput}
                       onChange={this.setInputState}

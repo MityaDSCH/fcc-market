@@ -10,7 +10,7 @@ module.exports = function(str, callback) {
   //get a chart w/ close prices by day from today to one year ago
   var chartParams = {
     'Normalized': false,
-    'NumberOfDays': 365,
+    'NumberOfDays': 90,
     'DataPeriod': 'Day',
     'Elements': [{
       'Symbol': str,
