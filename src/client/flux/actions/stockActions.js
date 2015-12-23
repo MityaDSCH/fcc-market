@@ -7,7 +7,7 @@ var apiUrl = window.location.origin + '/api';
 
 var stockActions = {
 
-  getStocks: function() {
+  getStocks() {
     $.get(apiUrl, function(stocks) {
       Dispatcher.dispatch({
         actionType: ActionTypes.INIT,
@@ -16,7 +16,7 @@ var stockActions = {
     });
   },
 
-  deleteStock: function(name) {
+  deleteStock(name) {
     $.get(apiUrl + '/delete/name=' + name, function(result) {
       Dispatcher.dispatch({
         actionType: ActionTypes.DELETE_STOCK,
@@ -25,7 +25,7 @@ var stockActions = {
     });
   },
 
-  addStock: function(name) {
+  addStock(name) {
     $.get(apiUrl + '/add/name=' + name, function(result) {
       if (Array.isArray(result) || result === 'Exceeded requests') {
         Dispatcher.dispatch({

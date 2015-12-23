@@ -11,13 +11,13 @@ var StockInput = React.createClass({
     onChange: React.PropTypes.func.isRequired
   },
 
-  inputKeyPress: function(e) {
+  inputKeyPress(e) {
     if (e.which === 13 && this.props.addStockInput.length > 0) {
       this.props.addStockButton();
     }
   },
 
-  render: function() {
+  render() {
 
     var helpBlock = null;
     var submitBtnClasses = "btn btn-success";

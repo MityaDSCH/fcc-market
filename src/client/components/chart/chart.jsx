@@ -6,7 +6,7 @@ import d3Chart from './d3Chart.js';
 
 var Chart = React.createClass({
 
-  componentDidMount: function() {
+  componentDidMount() {
     var el = ReactDOM.findDOMNode(this);
     d3Chart.create(el, {
       width: '100%',
@@ -14,9 +14,9 @@ var Chart = React.createClass({
     });
   },
 
-  render: function() {
+  render() {
     return (
-      <div>
+      <div id="chart-container">
 
       </div>
     );

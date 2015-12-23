@@ -32104,7 +32104,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var App = _react2.default.createClass({
   displayName: 'App',
-
   getInitialState: function getInitialState() {
     return {
       stocks: _stockStore2.default.getAllStocks(),
@@ -32112,33 +32111,27 @@ var App = _react2.default.createClass({
       addStockInput: ''
     };
   },
-
   componentWillMount: function componentWillMount() {
     _stockStore2.default.addChangeListener(this._onChange);
   },
-
   _onChange: function _onChange() {
     this.setState({
       stocks: _stockStore2.default.getAllStocks(),
       searchResults: _stockStore2.default.getSearchResults()
     });
   },
-
   deleteStock: function deleteStock(name) {
     _stockActions2.default.deleteStock(name);
   },
-
   setInputState: function setInputState(event) {
     return this.setState({
       addStockInput: event.target.value,
       searchResults: []
     });
   },
-
   addStock: function addStock() {
     _stockActions2.default.addStock(this.state.addStockInput);
   },
-
   render: function render() {
     return _react2.default.createElement(
       'div',
@@ -32158,7 +32151,6 @@ var App = _react2.default.createClass({
       )
     );
   }
-
 });
 
 exports.default = App;
@@ -32186,7 +32178,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Chart = _react2.default.createClass({
   displayName: 'Chart',
-
   componentDidMount: function componentDidMount() {
     var el = _reactDom2.default.findDOMNode(this);
     _d3Chart2.default.create(el, {
@@ -32194,9 +32185,8 @@ var Chart = _react2.default.createClass({
       height: '400px'
     });
   },
-
   render: function render() {
-    return _react2.default.createElement('div', null);
+    return _react2.default.createElement('div', { id: 'chart-container' });
   }
 });
 
@@ -32212,7 +32202,7 @@ var chart = {};
 
 chart.create = function (el, props) {
 
-  var svg = d3.select(el).append('svg').attr('width', '100%').append('rect').attr('width', props.width).attr('height', props.height);
+  var svg = d3.select(el).append('svg').attr('width', '100%').attr('height', '100%').append('rect').attr('width', props.width).attr('height', props.height).attr('fill', '#666633');
 };
 
 exports.default = chart;
@@ -32232,7 +32222,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Header = _react2.default.createClass({
   displayName: 'Header',
-
   render: function render() {
     return _react2.default.createElement(
       'div',
@@ -32367,7 +32356,6 @@ var StockInput = _react2.default.createClass({
       this.props.addStockButton();
     }
   },
-
   render: function render() {
 
     var helpBlock = null;
@@ -32411,7 +32399,6 @@ var StockInput = _react2.default.createClass({
       )
     );
   }
-
 });
 
 exports.default = StockInput;
@@ -32431,11 +32418,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var StockList = _react2.default.createClass({
   displayName: 'StockList',
-
   deleteStock: function deleteStock(name, e) {
     this.props.deleteStock(name);
   },
-
   render: function render() {
 
     var createStockItem = function createStockItem(stock) {
@@ -32520,7 +32505,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var apiUrl = window.location.origin + '/api';
 
 var stockActions = {
-
   getStocks: function getStocks() {
     $.get(apiUrl, function (stocks) {
       _appDispatcher2.default.dispatch({
@@ -32529,7 +32513,6 @@ var stockActions = {
       });
     });
   },
-
   deleteStock: function deleteStock(name) {
     $.get(apiUrl + '/delete/name=' + name, function (result) {
       _appDispatcher2.default.dispatch({
@@ -32538,7 +32521,6 @@ var stockActions = {
       });
     });
   },
-
   addStock: function addStock(name) {
     $.get(apiUrl + '/add/name=' + name, function (result) {
       if (Array.isArray(result) || result === 'Exceeded requests') {
@@ -32554,7 +32536,6 @@ var stockActions = {
       }
     });
   }
-
 };
 
 exports.default = stockActions;
@@ -32623,27 +32604,21 @@ var _stocks = [];
 var _searchResults = [];
 
 var StockStore = (0, _objectAssign2.default)({}, _events.EventEmitter.prototype, {
-
   addChangeListener: function addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   },
-
   removeChangeListener: function removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
-
   emitChange: function emitChange() {
     this.emit(CHANGE_EVENT);
   },
-
   getAllStocks: function getAllStocks() {
     return _stocks;
   },
-
   getSearchResults: function getSearchResults() {
     return _searchResults;
   }
-
 });
 
 _appDispatcher2.default.register(function (action) {

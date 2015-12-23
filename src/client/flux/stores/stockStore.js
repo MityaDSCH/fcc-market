@@ -12,29 +12,29 @@ var _searchResults = [];
 
 var StockStore = assign({}, EventEmitter.prototype, {
 
-  addChangeListener: function(callback) {
+  addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function(callback) {
+  removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  emitChange: function() {
+  emitChange() {
     this.emit(CHANGE_EVENT);
   },
 
-  getAllStocks: function() {
+  getAllStocks() {
     return _stocks;
   },
 
-  getSearchResults: function() {
+  getSearchResults() {
     return _searchResults;
   }
 
 });
 
-Dispatcher.register(function(action) {
+Dispatcher.register((action) => {
 
   switch(action.actionType) {
 

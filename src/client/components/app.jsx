@@ -12,7 +12,7 @@ import StockStore from '../flux/stores/stockStore.js';
 
 var App = React.createClass({
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       stocks: StockStore.getAllStocks(),
       searchResults: [],
@@ -20,33 +20,33 @@ var App = React.createClass({
     };
   },
 
-  componentWillMount: function() {
+  componentWillMount() {
     StockStore.addChangeListener(this._onChange);
   },
 
-  _onChange: function() {
+  _onChange() {
     this.setState({
       stocks: StockStore.getAllStocks(),
       searchResults: StockStore.getSearchResults()
     });
   },
 
-  deleteStock: function(name) {
+  deleteStock(name) {
     StockActions.deleteStock(name);
   },
 
-  setInputState: function(event) {
+  setInputState(event) {
     return this.setState({
       addStockInput: event.target.value,
       searchResults: []
     });
   },
 
-  addStock: function() {
+  addStock() {
     StockActions.addStock(this.state.addStockInput);
   },
 
-  render: function() {
+  render() {
     return (
       <div id="page-container">
         <Header />

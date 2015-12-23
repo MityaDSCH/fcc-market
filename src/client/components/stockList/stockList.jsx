@@ -4,11 +4,11 @@ import React from 'react';
 
 var StockList = React.createClass({
 
-  deleteStock: function(name, e) {
+  deleteStock(name, e) {
     this.props.deleteStock(name);
   },
 
-  render: function() {
+  render() {
 
     var createStockItem = function(stock) {
       return (

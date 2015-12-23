@@ -3,7 +3,7 @@
 import React from 'react';
 
 var Header = React.createClass({
-  render: function() {
+  render() {
     return (
       <div className='page-header'>
         <div className='header'>
