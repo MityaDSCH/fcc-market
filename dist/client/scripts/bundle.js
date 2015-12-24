@@ -32183,21 +32183,24 @@ var Chart = _react2.default.createClass({
     stocks: _react2.default.PropTypes.array
   },
 
+  createChart: function createChart(el, props) {
+    _d3Chart2.default.create(el, props.stocks.map(function (stock, i) {
+      return { //for each stock
+        name: stock.interactiveChart.Elements[0].Symbol, //return an object w/ the name
+        series: stock.interactiveChart.Positions.map(function (pos, i) {
+          return { // and a series arr of objects that's as long as the position arr
+            position: pos, // each object has corresponding pos
+            value: stock.interactiveChart.Elements[0].DataSeries.close.values[i], // value
+            date: stock.interactiveChart.Dates[i] // and date
+          };
+        })
+      };
+    }));
+  },
   componentWillReceiveProps: function componentWillReceiveProps(props) {
     var el = _reactDom2.default.findDOMNode(this);
     if (props.stocks.length > 0) {
-      _d3Chart2.default.create(el, props.stocks.map(function (stock, i) {
-        return { //for each stock
-          name: stock.interactiveChart.Elements[0].Symbol, //return an object w/ the name
-          series: stock.interactiveChart.Positions.map(function (pos, i) {
-            return { // and a series arr of objects that's as long as the position arr
-              position: pos, // each object has corresponding pos
-              value: stock.interactiveChart.Elements[0].DataSeries.close.values[i], // value
-              date: stock.interactiveChart.Dates[i] // and date
-            };
-          })
-        };
-      }));
+      this.createChart(el, props);
     }
   },
   render: function render() {
@@ -32219,16 +32222,21 @@ chart.create = function (el, props) {
 
   console.log(props);
 
-  var lineFun = d3.svg.line().x(function (d) {
-    return d.position * 100;
-  }).y(function (d) {
-    return d.value;
-  }).interpolate('linear');
-
   var svg = d3.select(el).append('svg').attr({
     width: '100%',
     height: '100%'
   });
+
+  var h = svg.style('height');
+  h = h.substr(0, h.length - 2);
+  var w = svg.style('width');
+  w = w.substr(0, w.length - 2);
+
+  var lineFun = d3.svg.line().x(function (d) {
+    return d.position * w;
+  }).y(function (d) {
+    return h - d.value;
+  }).interpolate('linear');
 
   var viz = svg.append('path').attr({
     d: lineFun(props[0].series),

@@ -3,12 +3,21 @@ body {
   min-height: 100%;
 }
 
+::-moz-scrollbars-vertical {
+  display: none;
+}
+
+
+::-webkit-scrollbar {
+  display: none;
+}
+
 #page-container {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   min-height: 100vh;
-  margin: 0 10px;
+  margin: 10px 0;
   width: 100%;
   @media screen and (min-width: 400px) {
     margin-left: 5%;
