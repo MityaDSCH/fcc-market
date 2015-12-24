@@ -87,8 +87,8 @@ gulp.task('watch', function() {
 gulp.task('start', ['build'], function () {
   nodemon({
     script: config.paths.serverDist + '/main.js',
-    ext: 'html',
-    ignore: ['*'],
+    ext: 'html js',
+    ignore: ['client/*'],
     env: { 'NODE_ENV': 'development' },
     tasks: ['build']
   });

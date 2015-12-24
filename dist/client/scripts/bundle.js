@@ -32102,6 +32102,8 @@ var _stockStore2 = _interopRequireDefault(_stockStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var socket = io();
+
 var App = _react2.default.createClass({
   displayName: 'App',
   getInitialState: function getInitialState() {

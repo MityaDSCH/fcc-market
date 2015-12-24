@@ -10,6 +10,8 @@ import StockInput from './stockInput/stockInput.jsx';
 import StockActions from '../flux/actions/stockActions.js';
 import StockStore from '../flux/stores/stockStore.js';
 
+var socket = io();
+
 var App = React.createClass({
 
   getInitialState() {

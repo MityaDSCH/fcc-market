@@ -5,7 +5,10 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
 var app = express();
+var http = require('http').Server(app);
+
 var routes = require('./routes.js');
+var io = require('./socket.js')(http);
 
 var mongoURI = process.env.MONGOLAB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/fcc-market';
 mongoose.connect(mongoURI);
@@ -24,6 +27,6 @@ app.use(bodyParser.json());
 routes(app);
 
 var port = process.env.PORT || 8080;
-app.listen(port, function() {
+http.listen(port, function() {
 
 });
