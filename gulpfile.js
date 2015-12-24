@@ -88,7 +88,7 @@ gulp.task('start', ['build'], function () {
   nodemon({
     script: config.paths.serverDist + '/main.js',
     ext: 'html js',
-    ignore: ['client/*'],
+    ignore: ['*'],
     env: { 'NODE_ENV': 'development' },
     tasks: ['build']
   });

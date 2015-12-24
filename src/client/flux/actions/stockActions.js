@@ -16,28 +16,32 @@ var stockActions = {
     });
   },
 
-  deleteStock(name) {
-    $.get(apiUrl + '/delete/name=' + name, function(result) {
-      Dispatcher.dispatch({
-        actionType: ActionTypes.DELETE_STOCK,
-        stockData: result
-      });
-    });
+  submitDeleteStock(name) {
+    $.get(apiUrl + '/delete/name=' + name);
   },
 
-  addStock(name) {
+  deleteLocalStock(stock) {
+    Dispatcher.dispatch({
+      actionType: ActionTypes.DELETE_STOCK,
+      stockData: stock
+    })
+  },
+
+  submitAddStock(name) {
     $.get(apiUrl + '/add/name=' + name, function(result) {
       if (Array.isArray(result) || result === 'Exceeded requests') {
         Dispatcher.dispatch({
           actionType: ActionTypes.STOCK_NOT_FOUND,
           searchData: result
         });
-      } else {
-        Dispatcher.dispatch({
-          actionType: ActionTypes.ADD_STOCK,
-          newStock: result
-        });
       }
+    });
+  },
+
+  addLocalStock(stock) {
+    Dispatcher.dispatch({
+      actionType: ActionTypes.ADD_STOCK,
+      newStock: stock
     });
   }
 

@@ -15,4 +15,9 @@ var Stock = new Schema({
   interactiveChart: Object
 });
 
+Stock.pre('save', function(next) {
+  this.name = this.name.toUpperCase();
+  next();
+});
+
 module.exports = mongoose.model('Stock', Stock);

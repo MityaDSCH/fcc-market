@@ -32102,8 +32102,6 @@ var _stockStore2 = _interopRequireDefault(_stockStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var socket = io();
-
 var App = _react2.default.createClass({
   displayName: 'App',
   getInitialState: function getInitialState() {
@@ -32123,7 +32121,7 @@ var App = _react2.default.createClass({
     });
   },
   deleteStock: function deleteStock(name) {
-    _stockActions2.default.deleteStock(name);
+    _stockActions2.default.submitDeleteStock(name);
   },
   setInputState: function setInputState(event) {
     return this.setState({
@@ -32132,7 +32130,7 @@ var App = _react2.default.createClass({
     });
   },
   addStock: function addStock() {
-    _stockActions2.default.addStock(this.state.addStockInput);
+    _stockActions2.default.submitAddStock(this.state.addStockInput);
   },
   render: function render() {
     return _react2.default.createElement(
@@ -32556,27 +32554,29 @@ var stockActions = {
       });
     });
   },
-  deleteStock: function deleteStock(name) {
-    $.get(apiUrl + '/delete/name=' + name, function (result) {
-      _appDispatcher2.default.dispatch({
-        actionType: _actionTypes2.default.DELETE_STOCK,
-        stockData: result
-      });
+  submitDeleteStock: function submitDeleteStock(name) {
+    $.get(apiUrl + '/delete/name=' + name);
+  },
+  deleteLocalStock: function deleteLocalStock(stock) {
+    _appDispatcher2.default.dispatch({
+      actionType: _actionTypes2.default.DELETE_STOCK,
+      stockData: stock
     });
   },
-  addStock: function addStock(name) {
+  submitAddStock: function submitAddStock(name) {
     $.get(apiUrl + '/add/name=' + name, function (result) {
       if (Array.isArray(result) || result === 'Exceeded requests') {
         _appDispatcher2.default.dispatch({
           actionType: _actionTypes2.default.STOCK_NOT_FOUND,
           searchData: result
         });
-      } else {
-        _appDispatcher2.default.dispatch({
-          actionType: _actionTypes2.default.ADD_STOCK,
-          newStock: result
-        });
       }
+    });
+  },
+  addLocalStock: function addLocalStock(stock) {
+    _appDispatcher2.default.dispatch({
+      actionType: _actionTypes2.default.ADD_STOCK,
+      newStock: stock
     });
   }
 };
@@ -32711,6 +32711,10 @@ var _initActions = require('./flux/actions/initActions.js');
 
 var _initActions2 = _interopRequireDefault(_initActions);
 
+var _stockActions = require('./flux/actions/stockActions.js');
+
+var _stockActions2 = _interopRequireDefault(_stockActions);
+
 var _app = require('./components/app.jsx');
 
 var _app2 = _interopRequireDefault(_app);
@@ -32719,6 +32723,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _initActions2.default.initApp();
 
+var socket = io();
+
+socket.on('add stock', function (stock) {
+  console.log('add ' + stock.name);
+  _stockActions2.default.addLocalStock(stock);
+});
+
+socket.on('remove stock', function (stock) {
+  console.log('remove ' + stock.name);
+  _stockActions2.default.deleteLocalStock(stock);
+});
+
 (0, _reactDom.render)(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
 
-},{"./components/app.jsx":166,"./flux/actions/initActions.js":173,"react":165,"react-dom":36}]},{},[178]);
+},{"./components/app.jsx":166,"./flux/actions/initActions.js":173,"./flux/actions/stockActions.js":174,"react":165,"react-dom":36}]},{},[178]);

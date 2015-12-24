@@ -8,7 +8,7 @@ var app = express();
 var http = require('http').Server(app);
 
 var routes = require('./routes.js');
-var io = require('./socket.js')(http);
+var io = require('./socket.js').setup(http);
 
 var mongoURI = process.env.MONGOLAB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/fcc-market';
 mongoose.connect(mongoURI);
