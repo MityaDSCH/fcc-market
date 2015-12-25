@@ -2,7 +2,12 @@ $chart-background: #aaa;
 
 #chart-container {
 
-  height: 30vh;
+  height: 40vh;
   width: 100%;
 
+}
+
+#stock-chart {
+  height: 100% !important;
+  width: 100% !important;
 }

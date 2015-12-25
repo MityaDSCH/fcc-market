@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import Chart from './chart/chart.jsx';
+import ChartContainer from './chart/chart.jsx';
 import Header from './header/header.jsx';
 import StockList from './stockList/stockList.jsx';
 import StockInput from './stockInput/stockInput.jsx';
@@ -50,7 +50,7 @@ var App = React.createClass({
     return (
       <div id="page-container">
         <Header />
-        <Chart stocks={this.state.stocks}/>
+        <ChartContainer stocks={this.state.stocks}/>
         <div>
           <StockInput addStockInput={this.state.addStockInput}
                       onChange={this.setInputState}
