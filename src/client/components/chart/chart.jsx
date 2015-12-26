@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {Line as LineChart} from 'react-chartjs';
+import randomColor from 'randomcolor';
 
 var ChartContainer = React.createClass({
 
@@ -16,17 +17,31 @@ var ChartContainer = React.createClass({
   },
 
   createChartData(nextProps) {
+    var colorArr = randomColor({
+      count: nextProps.stocks.length,
+      luminosity: 'bright',
+      hue: 'orange',
+      format: 'rgb'
+    }).map(rgbStr => {
+      var rgbArr = rgbStr.split(' ').map(str => {
+        return str.replace(/[^0-9]+/g, '');
+      });
+      return {
+        rgb: rgbStr,
+        rgba: 'rgba(' + rgbArr[0] + ',' + rgbArr[1] + ',' + rgbArr[2] + ', .2)'
+      }
+    });
     return ({
       labels: nextProps.stocks[0].interactiveChart.Dates.map(dateIso => {
         var date = new Date(dateIso);
         return date.getMonth() + '/' + date.getDate();
       }),
-      datasets: nextProps.stocks.map(stock => {
+      datasets: nextProps.stocks.map( (stock, i) => {
         return ({
           label: stock.name,
-          fillColor: "rgba(220,220,220,0.2)",
-          strokeColor: "rgba(220,220,220,1)",
-          pointColor: "rgba(220,220,220,1)",
+          fillColor: colorArr[i].rgba,
+          strokeColor: colorArr[i].rgb,
+          pointColor: colorArr[i].rgb,
           pointStrokeColor: "#fff",
           pointHighlightFill: "#fff",
           pointHighlightStroke: "rgba(220,220,220,1)",
@@ -34,28 +49,6 @@ var ChartContainer = React.createClass({
         });
       })
     });
-//     return {
-//     "labels": ["January", "February", "March", "April", "May", "June", "July", "August", "November", "December"],
-//     "datasets": [{
-//         label: "Sodium intake",
-//         fillColor: "rgba(220,220,220,0.2)",
-//         strokeColor: "rgba(220,220,220,1)",
-//         pointColor: "rgba(220,220,220,1)",
-//         pointStrokeColor: "#fff",
-//         pointHighlightFill: "#fff",
-//         pointHighlightStroke: "rgba(220,220,220,1)",
-//         data: [165, 159, 180, 181, 156, 155, 140]
-//     }, {
-//         label: "Sugar intake",
-//         fillColor: "rgba(151,187,205,0.2)",
-//         strokeColor: "rgba(151,187,205,1)",
-//         pointColor: "rgba(151,187,205,1)",
-//         pointStrokeColor: "#fff",
-//         pointHighlightFill: "#fff",
-//         pointHighlightStroke: "rgba(151,187,205,1)",
-//         data: [128, 148, 140, 119, 186, 127, 190]
-//     }]
-// }
   },
 
   componentWillReceiveProps(nextProps) {
