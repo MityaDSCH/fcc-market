@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Chart from 'chart.js';
 import {Line as LineChart} from 'react-chartjs';
 import randomColor from 'randomcolor';
 
@@ -12,8 +13,16 @@ var ChartContainer = React.createClass({
 
   getInitialState() {
     return {
-      data: {}
+      data: {
+        datasets: []
+      }
     };
+  },
+
+  componentDidMount() {
+
+    Chart.defaults.global.responsive = true;
+
   },
 
   createChartData(nextProps) {
@@ -22,11 +31,11 @@ var ChartContainer = React.createClass({
       luminosity: 'bright',
       hue: 'orange',
       format: 'rgb'
-    }).map(rgbStr => {
-      var rgbArr = rgbStr.split(' ').map(str => {
+    }).map(rgbStr => { // take each color
+      var rgbArr = rgbStr.split(' ').map(str => { //make an arr of [r, g, b]
         return str.replace(/[^0-9]+/g, '');
       });
-      return {
+      return { // and replace it with an object that has an rgba prop
         rgb: rgbStr,
         rgba: 'rgba(' + rgbArr[0] + ',' + rgbArr[1] + ',' + rgbArr[2] + ', .2)'
       }
@@ -52,11 +61,17 @@ var ChartContainer = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.stocks.length > 0) {
-      this.setState({
-        data: this.createChartData(nextProps)
-      })
-    }
+    this.setState({
+      data: this.createChartData(nextProps),
+      options: {
+        pointDotRadius: 3,
+        pointHitDetectionRadius: 2
+      }
+    });
+  },
+
+  shouldComponentUpdate(nextState, nextProps) {
+    return this.state.data.datasets.length != nextState.stocks.length;
   },
 
   render() {
@@ -64,7 +79,7 @@ var ChartContainer = React.createClass({
     var chartComponent;
     if (Object.keys(this.state.data).length > 0) {
       chartComponent = <LineChart id="stock-chart" data={this.state.data}
-                                  options={{}} />;
+                                  options={this.state.options} redraw/>;
     } else {
       chartComponent = null;
     }

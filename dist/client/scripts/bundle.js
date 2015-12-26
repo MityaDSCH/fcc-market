@@ -35792,6 +35792,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _chart = require('chart.js');
+
+var _chart2 = _interopRequireDefault(_chart);
+
 var _reactChartjs = require('react-chartjs');
 
 var _randomcolor = require('randomcolor');
@@ -35809,8 +35813,14 @@ var ChartContainer = _react2.default.createClass({
 
   getInitialState: function getInitialState() {
     return {
-      data: {}
+      data: {
+        datasets: []
+      }
     };
+  },
+  componentDidMount: function componentDidMount() {
+
+    _chart2.default.defaults.global.responsive = true;
   },
   createChartData: function createChartData(nextProps) {
     var colorArr = (0, _randomcolor2.default)({
@@ -35819,10 +35829,12 @@ var ChartContainer = _react2.default.createClass({
       hue: 'orange',
       format: 'rgb'
     }).map(function (rgbStr) {
+      // take each color
       var rgbArr = rgbStr.split(' ').map(function (str) {
+        //make an arr of [r, g, b]
         return str.replace(/[^0-9]+/g, '');
       });
-      return {
+      return { // and replace it with an object that has an rgba prop
         rgb: rgbStr,
         rgba: 'rgba(' + rgbArr[0] + ',' + rgbArr[1] + ',' + rgbArr[2] + ', .2)'
       };
@@ -35847,18 +35859,23 @@ var ChartContainer = _react2.default.createClass({
     };
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    if (nextProps.stocks.length > 0) {
-      this.setState({
-        data: this.createChartData(nextProps)
-      });
-    }
+    this.setState({
+      data: this.createChartData(nextProps),
+      options: {
+        pointDotRadius: 3,
+        pointHitDetectionRadius: 2
+      }
+    });
+  },
+  shouldComponentUpdate: function shouldComponentUpdate(nextState, nextProps) {
+    return this.state.data.datasets.length != nextState.stocks.length;
   },
   render: function render() {
 
     var chartComponent;
     if (Object.keys(this.state.data).length > 0) {
       chartComponent = _react2.default.createElement(_reactChartjs.Line, { id: 'stock-chart', data: this.state.data,
-        options: {} });
+        options: this.state.options, redraw: true });
     } else {
       chartComponent = null;
     }
@@ -35873,7 +35890,7 @@ var ChartContainer = _react2.default.createClass({
 
 exports.default = ChartContainer;
 
-},{"randomcolor":187,"react":174,"react-chartjs":37}],177:[function(require,module,exports){
+},{"chart.js":1,"randomcolor":187,"react":174,"react-chartjs":37}],177:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36090,11 +36107,12 @@ var StockList = _react2.default.createClass({
   render: function render() {
 
     var createStockItem = function createStockItem(stock) {
+      var showDeleteButton = this.props.stocks.length > 1;
       return _react2.default.createElement(
         'li',
         { key: stock.name, className: 'list-group-item' },
         stock.name,
-        _react2.default.createElement(
+        showDeleteButton ? _react2.default.createElement(
           'span',
           { className: 'pull-right' },
           _react2.default.createElement(
@@ -36102,7 +36120,7 @@ var StockList = _react2.default.createClass({
             { onClick: this.deleteStock.bind(this, stock.name), className: 'btn btn-xs btn-danger' },
             _react2.default.createElement('span', { className: 'glyphicon glyphicon-remove' })
           )
-        )
+        ) : null
       );
     };
 
@@ -36351,12 +36369,10 @@ _initActions2.default.initApp();
 var socket = io();
 
 socket.on('add stock', function (stock) {
-  console.log('add ' + stock.name);
   _stockActions2.default.addLocalStock(stock);
 });
 
 socket.on('remove stock', function (stock) {
-  console.log('remove ' + stock.name);
   _stockActions2.default.deleteLocalStock(stock);
 });
 

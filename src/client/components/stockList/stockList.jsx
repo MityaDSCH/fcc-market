@@ -11,14 +11,16 @@ var StockList = React.createClass({
   render() {
 
     var createStockItem = function(stock) {
+      var showDeleteButton = this.props.stocks.length > 1;
       return (
         <li key={stock.name} className="list-group-item">
           {stock.name}
-          <span className="pull-right">
+          {showDeleteButton ? <span className="pull-right">
             <button onClick={this.deleteStock.bind(this, stock.name)} className="btn btn-xs btn-danger">
               <span className="glyphicon glyphicon-remove"></span>
             </button>
           </span>
+          : null}
         </li>
       );
     };
