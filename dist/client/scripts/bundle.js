@@ -35825,7 +35825,9 @@ var ChartContainer = _react2.default.createClass({
   },
   componentDidMount: function componentDidMount() {
 
-    _chart2.default.defaults.global.responsive = true;
+    var chartDefaults = _chart2.default.defaults.global;
+    chartDefaults.responsive = true;
+    chartDefaults.multiTooltipTemplate = "<%= datasetLabel %> - <%= value %>";
   },
   createChartData: function createChartData(nextProps) {
     var colorArr = (0, _randomcolor2.default)({

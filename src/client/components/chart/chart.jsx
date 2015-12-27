@@ -21,7 +21,9 @@ var ChartContainer = React.createClass({
 
   componentDidMount() {
 
-    Chart.defaults.global.responsive = true;
+    var chartDefaults = Chart.defaults.global;
+    chartDefaults.responsive = true;
+    chartDefaults.multiTooltipTemplate = "<%= datasetLabel %> - <%= value %>";
 
   },
 
