@@ -35803,10 +35803,6 @@ var _chart2 = _interopRequireDefault(_chart);
 
 var _reactChartjs = require('react-chartjs');
 
-var _randomcolor = require('randomcolor');
-
-var _randomcolor2 = _interopRequireDefault(_randomcolor);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ChartContainer = _react2.default.createClass({
@@ -35830,22 +35826,6 @@ var ChartContainer = _react2.default.createClass({
     chartDefaults.multiTooltipTemplate = "<%= datasetLabel %> - <%= value %>";
   },
   createChartData: function createChartData(nextProps) {
-    var colorArr = (0, _randomcolor2.default)({
-      count: nextProps.stocks.length,
-      luminosity: 'bright',
-      hue: 'orange',
-      format: 'rgb'
-    }).map(function (rgbStr) {
-      // take each color
-      var rgbArr = rgbStr.split(' ').map(function (str) {
-        //make an arr of [r, g, b]
-        return str.replace(/[^0-9]+/g, '');
-      });
-      return { // and replace it with an object that has an rgba prop
-        rgb: rgbStr,
-        rgba: 'rgba(' + rgbArr[0] + ',' + rgbArr[1] + ',' + rgbArr[2] + ', .2)'
-      };
-    });
     return {
       labels: nextProps.stocks[0].interactiveChart.Dates.map(function (dateIso, i) {
         if (i % 4 === 0) {
@@ -35902,7 +35882,7 @@ var ChartContainer = _react2.default.createClass({
 
 exports.default = ChartContainer;
 
-},{"chart.js":1,"randomcolor":187,"react":174,"react-chartjs":37}],177:[function(require,module,exports){
+},{"chart.js":1,"react":174,"react-chartjs":37}],177:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

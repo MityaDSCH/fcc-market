@@ -3,7 +3,6 @@
 import React from 'react';
 import Chart from 'chart.js';
 import {Line as LineChart} from 'react-chartjs';
-import randomColor from 'randomcolor';
 
 var ChartContainer = React.createClass({
 
@@ -28,20 +27,6 @@ var ChartContainer = React.createClass({
   },
 
   createChartData(nextProps) {
-    var colorArr = randomColor({
-      count: nextProps.stocks.length,
-      luminosity: 'bright',
-      hue: 'orange',
-      format: 'rgb'
-    }).map(rgbStr => { // take each color
-      var rgbArr = rgbStr.split(' ').map(str => { //make an arr of [r, g, b]
-        return str.replace(/[^0-9]+/g, '');
-      });
-      return { // and replace it with an object that has an rgba prop
-        rgb: rgbStr,
-        rgba: 'rgba(' + rgbArr[0] + ',' + rgbArr[1] + ',' + rgbArr[2] + ', .2)'
-      }
-    });
     return ({
       labels: nextProps.stocks[0].interactiveChart.Dates.map( (dateIso, i) => {
         if (i%4 === 0) {
