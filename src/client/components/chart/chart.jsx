@@ -41,16 +41,20 @@ var ChartContainer = React.createClass({
       }
     });
     return ({
-      labels: nextProps.stocks[0].interactiveChart.Dates.map(dateIso => {
-        var date = new Date(dateIso);
-        return date.getMonth() + '/' + date.getDate();
+      labels: nextProps.stocks[0].interactiveChart.Dates.map( (dateIso, i) => {
+        if (i%4 === 0) {
+          var date = new Date(dateIso);
+          return date.getMonth() + '/' + date.getDate();
+        } else {
+          return '';
+        }
       }),
-      datasets: nextProps.stocks.map( (stock, i) => {
+      datasets: nextProps.stocks.map(stock => {
         return ({
           label: stock.name,
-          fillColor: colorArr[i].rgba,
-          strokeColor: colorArr[i].rgb,
-          pointColor: colorArr[i].rgb,
+          fillColor: stock.rgba,
+          strokeColor: stock.rgb,
+          pointColor: stock.rgb,
           pointStrokeColor: "#fff",
           pointHighlightFill: "#fff",
           pointHighlightStroke: "rgba(220,220,220,1)",
@@ -65,12 +69,13 @@ var ChartContainer = React.createClass({
       data: this.createChartData(nextProps),
       options: {
         pointDotRadius: 3,
-        pointHitDetectionRadius: 2
+        pointHitDetectionRadius: 2,
+        showXLabels: 10
       }
     });
   },
 
-  shouldComponentUpdate(nextState, nextProps) {
+  shouldComponentUpdate(nextState) {
     return this.state.data.datasets.length != nextState.stocks.length;
   },
 

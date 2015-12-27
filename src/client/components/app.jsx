@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import randomColor from 'randomcolor';
 
 import ChartContainer from './chart/chart.jsx';
 import Header from './header/header.jsx';
@@ -15,6 +16,7 @@ var App = React.createClass({
   getInitialState() {
     return {
       stocks: StockStore.getAllStocks(),
+      stockColorArr: [],
       searchResults: [],
       addStockInput: ''
     };

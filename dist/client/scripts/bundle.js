@@ -35702,6 +35702,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _randomcolor = require('randomcolor');
+
+var _randomcolor2 = _interopRequireDefault(_randomcolor);
+
 var _chart = require('./chart/chart.jsx');
 
 var _chart2 = _interopRequireDefault(_chart);
@@ -35733,6 +35737,7 @@ var App = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return {
       stocks: _stockStore2.default.getAllStocks(),
+      stockColorArr: [],
       searchResults: [],
       addStockInput: ''
     };
@@ -35781,7 +35786,7 @@ var App = _react2.default.createClass({
 
 exports.default = App;
 
-},{"../flux/actions/stockActions.js":182,"../flux/stores/stockStore.js":185,"./chart/chart.jsx":176,"./header/header.jsx":177,"./stockInput/stockInput.jsx":179,"./stockList/stockList.jsx":180,"react":174}],176:[function(require,module,exports){
+},{"../flux/actions/stockActions.js":182,"../flux/stores/stockStore.js":185,"./chart/chart.jsx":176,"./header/header.jsx":177,"./stockInput/stockInput.jsx":179,"./stockList/stockList.jsx":180,"randomcolor":187,"react":174}],176:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35840,16 +35845,20 @@ var ChartContainer = _react2.default.createClass({
       };
     });
     return {
-      labels: nextProps.stocks[0].interactiveChart.Dates.map(function (dateIso) {
-        var date = new Date(dateIso);
-        return date.getMonth() + '/' + date.getDate();
+      labels: nextProps.stocks[0].interactiveChart.Dates.map(function (dateIso, i) {
+        if (i % 4 === 0) {
+          var date = new Date(dateIso);
+          return date.getMonth() + '/' + date.getDate();
+        } else {
+          return '';
+        }
       }),
-      datasets: nextProps.stocks.map(function (stock, i) {
+      datasets: nextProps.stocks.map(function (stock) {
         return {
           label: stock.name,
-          fillColor: colorArr[i].rgba,
-          strokeColor: colorArr[i].rgb,
-          pointColor: colorArr[i].rgb,
+          fillColor: stock.rgba,
+          strokeColor: stock.rgb,
+          pointColor: stock.rgb,
           pointStrokeColor: "#fff",
           pointHighlightFill: "#fff",
           pointHighlightStroke: "rgba(220,220,220,1)",
@@ -35863,11 +35872,12 @@ var ChartContainer = _react2.default.createClass({
       data: this.createChartData(nextProps),
       options: {
         pointDotRadius: 3,
-        pointHitDetectionRadius: 2
+        pointHitDetectionRadius: 2,
+        showXLabels: 10
       }
     });
   },
-  shouldComponentUpdate: function shouldComponentUpdate(nextState, nextProps) {
+  shouldComponentUpdate: function shouldComponentUpdate(nextState) {
     return this.state.data.datasets.length != nextState.stocks.length;
   },
   render: function render() {
@@ -36101,6 +36111,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var StockList = _react2.default.createClass({
   displayName: 'StockList',
+
+  propTypes: {
+    stocks: _react2.default.PropTypes.array
+  },
+
   deleteStock: function deleteStock(name, e) {
     this.props.deleteStock(name);
   },
@@ -36110,8 +36125,16 @@ var StockList = _react2.default.createClass({
       var showDeleteButton = this.props.stocks.length > 1;
       return _react2.default.createElement(
         'li',
-        { key: stock.name, className: 'list-group-item' },
-        stock.name,
+        { key: stock.name, className: 'list-group-item ' },
+        _react2.default.createElement(
+          'span',
+          { className: 'stock-name', style: {
+              backgroundColor: stock.rgba,
+              padding: '5px',
+              borderRadius: '3px'
+            } },
+          stock.name
+        ),
         showDeleteButton ? _react2.default.createElement(
           'span',
           { className: 'pull-right' },
@@ -36282,6 +36305,10 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+var _randomcolor = require('randomcolor');
+
+var _randomcolor2 = _interopRequireDefault(_randomcolor);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CHANGE_EVENT = 'change';
@@ -36300,10 +36327,50 @@ var StockStore = (0, _objectAssign2.default)({}, _events.EventEmitter.prototype,
     this.emit(CHANGE_EVENT);
   },
   getAllStocks: function getAllStocks() {
+    var colors = this.makeStockColors(_stocks.length);
+    for (var i = 0; i < _stocks.length; i++) {
+      _stocks[i].rgb = colors[i].rgb;
+      _stocks[i].rgba = colors[i].rgba;
+    }
     return _stocks;
   },
   getSearchResults: function getSearchResults() {
     return _searchResults;
+  },
+  makeStockColors: function makeStockColors(numStocks) {
+    var numColors1 = numStocks % 2 === 0 ? numStocks / 2 : (numStocks + 1) / 2;
+    var numColors2 = numStocks - numColors1;
+    var colors1 = (0, _randomcolor2.default)({
+      count: numColors1,
+      luminosity: 'dark',
+      hue: 'blue',
+      format: 'rgb'
+    });
+    var colors2 = (0, _randomcolor2.default)({
+      count: numColors2,
+      luminosity: 'dark',
+      hue: 'red',
+      format: 'rgb'
+    });
+    var colorArr = [];
+    for (var i = 0; i < numStocks; i++) {
+      if (i % 2 === 0) {
+        colorArr.push(colors1.shift());
+      } else {
+        colorArr.push(colors2.shift());
+      }
+    }
+    return colorArr.map(function (rgbStr) {
+      // take each color
+      var rgbArr = rgbStr.split(' ').map(function (str) {
+        //make an arr of [r, g, b]
+        return str.replace(/[^0-9]+/g, '');
+      });
+      return { // and replace it with an object that has an rgba prop
+        rgb: rgbStr,
+        rgba: 'rgba(' + rgbArr[0] + ', ' + rgbArr[1] + ', ' + rgbArr[2] + ', .2)'
+      };
+    });
   }
 });
 
@@ -36341,7 +36408,7 @@ _appDispatcher2.default.register(function (action) {
 
 exports.default = StockStore;
 
-},{"../constants/actionTypes.js":183,"../dispatcher/appDispatcher.js":184,"events":2,"lodash":34,"object-assign":35}],186:[function(require,module,exports){
+},{"../constants/actionTypes.js":183,"../dispatcher/appDispatcher.js":184,"events":2,"lodash":34,"object-assign":35,"randomcolor":187}],186:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
