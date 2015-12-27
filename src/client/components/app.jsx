@@ -7,6 +7,7 @@ import ChartContainer from './chart/chart.jsx';
 import Header from './header/header.jsx';
 import StockList from './stockList/stockList.jsx';
 import StockInput from './stockInput/stockInput.jsx';
+import Footer from './footer/footer.jsx';
 
 import StockActions from '../flux/actions/stockActions.js';
 import StockStore from '../flux/stores/stockStore.js';
@@ -51,17 +52,20 @@ var App = React.createClass({
   render() {
     return (
       <div id="page-container">
-        <Header />
-        <ChartContainer stocks={this.state.stocks}/>
-        <div>
-          <StockInput addStockInput={this.state.addStockInput}
-                      onChange={this.setInputState}
-                      addStockButton={this.addStock}
-                      searchResults={this.state.searchResults} />
-          <br />
-          <StockList deleteStock={this.deleteStock}
-                     stocks={this.state.stocks} />
+        <div id="non-footer">
+          <Header />
+          <ChartContainer stocks={this.state.stocks}/>
+          <div>
+            <StockInput addStockInput={this.state.addStockInput}
+                        onChange={this.setInputState}
+                        addStockButton={this.addStock}
+                        searchResults={this.state.searchResults} />
+            <br />
+            <StockList deleteStock={this.deleteStock}
+                       stocks={this.state.stocks} />
+          </div>
         </div>
+        <Footer />
       </div>
     );
   }

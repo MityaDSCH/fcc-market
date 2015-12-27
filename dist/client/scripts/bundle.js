@@ -35722,6 +35722,10 @@ var _stockInput = require('./stockInput/stockInput.jsx');
 
 var _stockInput2 = _interopRequireDefault(_stockInput);
 
+var _footer = require('./footer/footer.jsx');
+
+var _footer2 = _interopRequireDefault(_footer);
+
 var _stockActions = require('../flux/actions/stockActions.js');
 
 var _stockActions2 = _interopRequireDefault(_stockActions);
@@ -35767,26 +35771,31 @@ var App = _react2.default.createClass({
     return _react2.default.createElement(
       'div',
       { id: 'page-container' },
-      _react2.default.createElement(_header2.default, null),
-      _react2.default.createElement(_chart2.default, { stocks: this.state.stocks }),
       _react2.default.createElement(
         'div',
-        null,
-        _react2.default.createElement(_stockInput2.default, { addStockInput: this.state.addStockInput,
-          onChange: this.setInputState,
-          addStockButton: this.addStock,
-          searchResults: this.state.searchResults }),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(_stockList2.default, { deleteStock: this.deleteStock,
-          stocks: this.state.stocks })
-      )
+        { id: 'non-footer' },
+        _react2.default.createElement(_header2.default, null),
+        _react2.default.createElement(_chart2.default, { stocks: this.state.stocks }),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(_stockInput2.default, { addStockInput: this.state.addStockInput,
+            onChange: this.setInputState,
+            addStockButton: this.addStock,
+            searchResults: this.state.searchResults }),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(_stockList2.default, { deleteStock: this.deleteStock,
+            stocks: this.state.stocks })
+        )
+      ),
+      _react2.default.createElement(_footer2.default, null)
     );
   }
 });
 
 exports.default = App;
 
-},{"../flux/actions/stockActions.js":182,"../flux/stores/stockStore.js":185,"./chart/chart.jsx":176,"./header/header.jsx":177,"./stockInput/stockInput.jsx":179,"./stockList/stockList.jsx":180,"randomcolor":187,"react":174}],176:[function(require,module,exports){
+},{"../flux/actions/stockActions.js":183,"../flux/stores/stockStore.js":186,"./chart/chart.jsx":176,"./footer/footer.jsx":177,"./header/header.jsx":178,"./stockInput/stockInput.jsx":180,"./stockList/stockList.jsx":181,"randomcolor":188,"react":174}],176:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35895,6 +35904,59 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var Footer = _react2.default.createClass({
+  displayName: 'Footer',
+  animateFooter: function animateFooter() {
+    console.log('animate');
+    $('#pull-tab').toggleClass('active');
+    $('footer').toggleClass('shift-up');
+    $('#non-footer').toggleClass('shift-up');
+  },
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      { id: 'footer-container' },
+      _react2.default.createElement(
+        'div',
+        { id: 'pull-tab', onClick: this.animateFooter },
+        _react2.default.createElement('span', { id: 'icon', className: 'glyphicon glyphicon-console' })
+      ),
+      _react2.default.createElement(
+        'footer',
+        null,
+        _react2.default.createElement(
+          'p',
+          null,
+          'This ',
+          _react2.default.createElement('br', null),
+          ' Website By :'
+        ),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'a',
+          { href: 'http://mylesgearon.com', alt: 'mylesgearon.com' },
+          _react2.default.createElement('img', { src: 'images/mw-logo.svg' })
+        )
+      )
+    );
+  }
+});
+
+exports.default = Footer;
+
+},{"react":174}],178:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var Header = _react2.default.createClass({
   displayName: 'Header',
   render: function render() {
@@ -35921,7 +35983,7 @@ var Header = _react2.default.createClass({
 
 exports.default = Header;
 
-},{"react":174}],178:[function(require,module,exports){
+},{"react":174}],179:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36000,7 +36062,7 @@ var HelpBlock = _react2.default.createClass({
 
 exports.default = HelpBlock;
 
-},{"react":174}],179:[function(require,module,exports){
+},{"react":174}],180:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36078,7 +36140,7 @@ var StockInput = _react2.default.createClass({
 
 exports.default = StockInput;
 
-},{"./helpBlock/helpBlock.jsx":178,"react":174}],180:[function(require,module,exports){
+},{"./helpBlock/helpBlock.jsx":179,"react":174}],181:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36143,7 +36205,7 @@ var StockList = _react2.default.createClass({
 
 exports.default = StockList;
 
-},{"react":174}],181:[function(require,module,exports){
+},{"react":174}],182:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36174,7 +36236,7 @@ var InitAction = {
 
 exports.default = InitAction;
 
-},{"../constants/actionTypes":183,"../dispatcher/appDispatcher.js":184}],182:[function(require,module,exports){
+},{"../constants/actionTypes":184,"../dispatcher/appDispatcher.js":185}],183:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36231,7 +36293,7 @@ var stockActions = {
 
 exports.default = stockActions;
 
-},{"../constants/actionTypes":183,"../dispatcher/appDispatcher.js":184}],183:[function(require,module,exports){
+},{"../constants/actionTypes":184,"../dispatcher/appDispatcher.js":185}],184:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36251,7 +36313,7 @@ exports.default = (0, _keymirror2.default)({
   STOCK_NOT_FOUND: null
 });
 
-},{"keymirror":33}],184:[function(require,module,exports){
+},{"keymirror":33}],185:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36262,7 +36324,7 @@ var _flux = require('flux');
 
 exports.default = new _flux.Dispatcher();
 
-},{"flux":30}],185:[function(require,module,exports){
+},{"flux":30}],186:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36390,7 +36452,7 @@ _appDispatcher2.default.register(function (action) {
 
 exports.default = StockStore;
 
-},{"../constants/actionTypes.js":183,"../dispatcher/appDispatcher.js":184,"events":2,"lodash":34,"object-assign":35,"randomcolor":187}],186:[function(require,module,exports){
+},{"../constants/actionTypes.js":184,"../dispatcher/appDispatcher.js":185,"events":2,"lodash":34,"object-assign":35,"randomcolor":188}],187:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -36427,7 +36489,7 @@ socket.on('remove stock', function (stock) {
 
 (0, _reactDom.render)(_react2.default.createElement(_app2.default, null), document.getElementById('app'));
 
-},{"./components/app.jsx":175,"./flux/actions/initActions.js":181,"./flux/actions/stockActions.js":182,"react":174,"react-dom":45}],187:[function(require,module,exports){
+},{"./components/app.jsx":175,"./flux/actions/initActions.js":182,"./flux/actions/stockActions.js":183,"react":174,"react-dom":45}],188:[function(require,module,exports){
 // randomColor by David Merfield under the MIT license
 // https://github.com/davidmerfield/randomColor/
 ;(function(root, factory) {
@@ -36834,4 +36896,4 @@ socket.on('remove stock', function (stock) {
 
   return randomColor;
 }));
-},{}]},{},[186]);
+},{}]},{},[187]);
