@@ -29,7 +29,7 @@ var stockActions = {
 
   submitAddStock(name) {
     $.get(apiUrl + '/add/name=' + name, function(result) {
-      if (Array.isArray(result) || result === 'Exceeded requests') {
+      if (Array.isArray(result) || result === 'Exceeded requests' || result === 'Invalid stock') {
         Dispatcher.dispatch({
           actionType: ActionTypes.STOCK_NOT_FOUND,
           searchData: result

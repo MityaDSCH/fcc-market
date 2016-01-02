@@ -36003,8 +36003,6 @@ var HelpBlock = _react2.default.createClass({
 
     if (this.props.results === 'Exceeded requests') {
 
-      console.log(this.props.results);
-
       return _react2.default.createElement(
         'div',
         null,
@@ -36015,6 +36013,21 @@ var HelpBlock = _react2.default.createClass({
             'p',
             { className: 'text-center' },
             'Too many request/sec, try again in a bit.'
+          )
+        )
+      );
+    } else if (this.props.results === 'Invalid stock') {
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'span',
+          { id: 'help-block', className: 'help-block text-warning' },
+          _react2.default.createElement(
+            'p',
+            { className: 'text-center' },
+            'Sorry, the api isn\'t returning data on this stock.'
           )
         )
       );
@@ -36275,7 +36288,7 @@ var stockActions = {
   },
   submitAddStock: function submitAddStock(name) {
     $.get(apiUrl + '/add/name=' + name, function (result) {
-      if (Array.isArray(result) || result === 'Exceeded requests') {
+      if (Array.isArray(result) || result === 'Exceeded requests' || result === 'Invalid stock') {
         _appDispatcher2.default.dispatch({
           actionType: _actionTypes2.default.STOCK_NOT_FOUND,
           searchData: result

@@ -8,12 +8,20 @@ var HelpBlock = React.createClass({
 
     if (this.props.results === 'Exceeded requests') {
 
-      console.log(this.props.results);
-
       return (
         <div>
           <span id="help-block" className="help-block text-warning">
             <p className="text-center">Too many request/sec, try again in a bit.</p>
+          </span>
+        </div>
+      );
+
+    } else if (this.props.results === 'Invalid stock') {
+
+      return (
+        <div>
+          <span id="help-block" className="help-block text-warning">
+            <p className="text-center">Sorry, the api isn't returning data on this stock.</p>
           </span>
         </div>
       );

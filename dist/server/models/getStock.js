@@ -23,7 +23,11 @@ module.exports = function(str, callback) {
     // if the reponse is JSON it was a success
     try {
       var chart = JSON.parse(result);
-      createStock(chart);
+      if (chart.Positions === null) {
+        invalidStock(chart);
+      } else {
+        createStock(chart);
+      }
     }
     // if not it responds w/ a 404 page
     catch(e) {
@@ -54,6 +58,10 @@ module.exports = function(str, callback) {
       }
 
     });
+  }
+
+  function invalidStock(result) {
+    callback('Invalid stock', false);
   }
 
   api.getChart(chartParams, testResponse);
