@@ -9,3 +9,10 @@ button {
 #help-block {
   margin: 10px 0;
 }
+
+#show-help {
+  position: fixed;
+  // width: calc(100% - 30px);
+  width: auto;
+  transform: translateY(-25px);
+}

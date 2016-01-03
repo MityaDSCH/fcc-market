@@ -11,6 +11,19 @@ var StockInput = React.createClass({
     onChange: React.PropTypes.func.isRequired
   },
 
+  getInitialState() {
+    return {
+      showHelp: false
+    };
+  },
+
+  toggleHelp() {
+    var show = !this.state.showHelp;
+    this.setState({
+      showHelp: show
+    });
+  },
+
   inputKeyPress(e) {
     if (e.which === 13 && this.props.addStockInput.length > 0) {
       this.props.addStockButton();
@@ -31,12 +44,15 @@ var StockInput = React.createClass({
     return (
       <div className="row">
         <div className={formGroupClasses} id="stock-input">
+          {this.state.showHelp ? <p id="show-help">You can search for stock symbols here too</p> : null}
           <div className="input-group">
             <input type="text"
                    className="form-control"
                    placeholder="Search for..."
                    aria-describedby="help-block"
                    value={this.props.addStockInput}
+                   onFocus={this.toggleHelp}
+                   onBlur={this.toggleHelp}
                    onChange={this.props.onChange}
                    onKeyDown={this.inputKeyPress}>
             </input>

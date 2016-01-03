@@ -36101,6 +36101,17 @@ var StockInput = _react2.default.createClass({
     onChange: _react2.default.PropTypes.func.isRequired
   },
 
+  getInitialState: function getInitialState() {
+    return {
+      showHelp: false
+    };
+  },
+  toggleHelp: function toggleHelp() {
+    var show = !this.state.showHelp;
+    this.setState({
+      showHelp: show
+    });
+  },
   inputKeyPress: function inputKeyPress(e) {
     if (e.which === 13 && this.props.addStockInput.length > 0) {
       this.props.addStockButton();
@@ -36123,6 +36134,11 @@ var StockInput = _react2.default.createClass({
       _react2.default.createElement(
         'div',
         { className: formGroupClasses, id: 'stock-input' },
+        this.state.showHelp ? _react2.default.createElement(
+          'p',
+          { id: 'show-help' },
+          'You can search for stock symbols here too'
+        ) : null,
         _react2.default.createElement(
           'div',
           { className: 'input-group' },
@@ -36131,6 +36147,8 @@ var StockInput = _react2.default.createClass({
             placeholder: 'Search for...',
             'aria-describedby': 'help-block',
             value: this.props.addStockInput,
+            onFocus: this.toggleHelp,
+            onBlur: this.toggleHelp,
             onChange: this.props.onChange,
             onKeyDown: this.inputKeyPress }),
           _react2.default.createElement(
