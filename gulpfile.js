@@ -106,3 +106,7 @@ gulp.task('build', ['html', 'lint', 'client-js', 'scss-lint', 'sass', 'copy-serv
 gulp.task('deploy', ['build'], shell.task([
   'git subtree push --prefix dist heroku master'
 ]));
+
+gulp.task('force-deploy', ['build'], shell.task([
+  'git push heroku `git subtree --prefix dist master` master --force'
+]));

@@ -36255,7 +36255,6 @@ var ChartContainer = _react2.default.createClass({
       labels: nextProps.stocks[0].interactiveChart.Dates.map(function (dateIso, i) {
         if (i % 4 === 0) {
           var date = new Date(dateIso);
-          console.log(date.getMonth() + 1 + '/' + date.getDate());
           return date.getMonth() + 1 + '/' + date.getDate();
         } else {
           return '';
