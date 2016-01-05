@@ -31,7 +31,7 @@ var ChartContainer = React.createClass({
       labels: nextProps.stocks[0].interactiveChart.Dates.map( (dateIso, i) => {
         if (i%4 === 0) {
           var date = new Date(dateIso);
-          return date.getMonth() + '/' + date.getDate();
+          return date.getMonth() + 1 + '/' + date.getDate();
         } else {
           return '';
         }
