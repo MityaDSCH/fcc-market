@@ -36275,11 +36275,14 @@ var ChartContainer = _react2.default.createClass({
     };
   },
   componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+    var chartWidth = document.getElementById('non-footer').offsetWidth;
+    var numPoints = nextProps.stocks[0].interactiveChart.Dates.length;
+    var detectionRadius = Math.pow(chartWidth / (numPoints * 8), 2.5);
     this.setState({
       data: this.createChartData(nextProps),
       options: {
         pointDotRadius: 3,
-        pointHitDetectionRadius: 2,
+        pointHitDetectionRadius: detectionRadius,
         showXLabels: 10
       }
     });

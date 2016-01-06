@@ -110,3 +110,4 @@ gulp.task('deploy', ['build'], shell.task([
 gulp.task('force-deploy', ['build'], shell.task([
   'git push heroku `git subtree split --prefix dist master`:master --force'
 ]));
+    
