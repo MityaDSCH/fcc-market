@@ -5,7 +5,6 @@ import React from 'react';
 var Footer = React.createClass({
 
   animateFooter() {
-    console.log('animate');
     $('#pull-tab').toggleClass('active');
     $('footer').toggleClass('shift-up');
     $('#non-footer').toggleClass('shift-up');
